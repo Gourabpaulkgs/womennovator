@@ -285,7 +285,7 @@ class AdminEventController extends Controller
 
         if ($round_table_inserted_id) {
             foreach ($juries as $jury_id) {
-                $res = DB::table('event_and_jury')->insert([
+                $res = DB::table('round_event_and_jury')->insert([
                     "event_id" => $round_table_inserted_id,
                     "jury_id" => $jury_id,
                     "status" => 1
@@ -338,16 +338,16 @@ class AdminEventController extends Controller
 
         $event = DB::table('community_round_table')->where(['id' => $id])->first();
         $cities =  DB::table('state_and_city')->select('city_id', 'city_name')->where(['state_id' => $event->state])->get();
-        $event_juries = DB::table('event_and_jury')
-        ->leftjoin('juries', 'juries.id', '=', 'event_and_jury.jury_id')
-        ->select('juries.name','juries.id')
-        ->where(['event_and_jury.event_id' => $id])
-        ->get();
-    
-        foreach($event_juries as $jj){
-            $juries = DB::table('juries')->select('name', 'id')->where(['status' => 1])->where('id' ,"!=", $jj->id)->get();
+        $event_juries = DB::table('round_event_and_jury')
+            ->leftjoin('juries', 'juries.id', '=', 'round_event_and_jury.jury_id')
+            ->select('juries.name', 'juries.id')
+            ->where(['round_event_and_jury.event_id' => $id])
+            ->get();
+
+        foreach ($event_juries as $jj) {
+            $juries = DB::table('juries')->select('name', 'id')->where(['status' => 1])->where('id', "!=", $jj->id)->get();
         }
-        return view('backEnd.round_table.edit_form', compact('sector', 'states', 'communities', 'event', 'cities','juries','event_juries'));
+        return view('backEnd.round_table.edit_form', compact('sector', 'states', 'communities', 'event', 'cities', 'juries', 'event_juries'));
     }
 
     // * Update Round Table Event
@@ -375,13 +375,12 @@ class AdminEventController extends Controller
         $old_image = DB::table('community_round_table')->where(['id' => $id])->select('round_table_poster')->first();
 
         $juries = $request->juries;
-
-            foreach ($juries as $jury_id) {
-                $res = DB::table('event_and_jury')->updateOrInsert(
-                    ['event_id' => $id, 'jury_id' => $jury_id],
-                    ['jury_id' => $jury_id]
-                );
-            }
+        foreach ($juries as $jury_id) {
+            $res = DB::table('round_event_and_jury')->updateOrInsert(
+                ['event_id' => $id, 'jury_id' => $jury_id],
+                ['jury_id' => $jury_id]
+            );
+        }
 
         if ($request->hasfile('round_table_poster')) {
 
@@ -452,7 +451,8 @@ class AdminEventController extends Controller
         $sector = Sector::latest()->get();
         $states = DB::table('state_and_city')->select('state_id', 'state_name')->distinct()->orderby('state_id')->get();
         $communities = DB::table('accepted_communities')->select('id', 'name')->get();
-        return view('backEnd.we_pitch.add_form', compact('sector', 'states', 'communities'));
+        $juries = DB::table('juries')->select('name', 'id')->where(['status' => 1])->get();
+        return view('backEnd.we_pitch.add_form', compact('sector', 'states', 'communities', 'juries'));
     }
 
     // * Create We-pitch Event
@@ -479,11 +479,11 @@ class AdminEventController extends Controller
         $city = $request->city;
         $sector = $request->sector;
         $type = "we_pitch";
-        $jury = $request->jury;
+        $jury = "none";
         $faces = $request->faces;
         $event_link = $request->event_link;
 
-        $res = DB::table('community_we_pitch')->insert([
+        $we_pitch_inserted_id = DB::table('community_we_pitch')->insertGetId([
             "we_pitch_title" => $we_pitch_title,
             "we_pitch_poster" => $we_pitch_poster,
             "we_pitch_mode" => $we_pitch_mode,
@@ -504,6 +504,19 @@ class AdminEventController extends Controller
             "faces" => $faces,
             "event_link" => $event_link,
         ]);
+
+
+        $juries = $request->juries;
+
+        if ($we_pitch_inserted_id) {
+            foreach ($juries as $jury_id) {
+                $res = DB::table('we_pitch_and_jury')->insert([
+                    "event_id" => $we_pitch_inserted_id,
+                    "jury_id" => $jury_id,
+                    "status" => 1
+                ]);
+            }
+        }
 
         if ($res) {
             $image->move('we/images/', $we_pitch_poster);
@@ -549,8 +562,17 @@ class AdminEventController extends Controller
 
         $event = DB::table('community_we_pitch')->where(['id' => $id])->first();
         $cities =  DB::table('state_and_city')->select('city_id', 'city_name')->where(['state_id' => $event->state])->get();
+        $event_juries = DB::table('round_event_and_jury')
+            ->leftjoin('juries', 'juries.id', '=', 'round_event_and_jury.jury_id')
+            ->select('juries.name', 'juries.id')
+            ->where(['round_event_and_jury.event_id' => $id])
+            ->get();
 
-        return view('backEnd.we_pitch.edit_form', compact('sector', 'states', 'communities', 'event', 'cities'));
+        foreach ($event_juries as $jj) {
+            $juries = DB::table('juries')->select('name', 'id')->where(['status' => 1])->where('id', "!=", $jj->id)->get();
+        }
+
+        return view('backEnd.we_pitch.edit_form', compact('sector', 'states', 'communities', 'event', 'cities', 'juries', 'event_juries'));
     }
 
     // * Update We-pitch Event
@@ -578,13 +600,21 @@ class AdminEventController extends Controller
 
         $old_image = DB::table('community_we_pitch')->where(['id' => $id])->select('we_pitch_poster')->first();
 
+        
+        $juries = $request->juries;
+        foreach ($juries as $jury_id) {
+            $res = DB::table('round_event_and_jury')->updateOrInsert(
+                ['event_id' => $id, 'jury_id' => $jury_id],
+                ['jury_id' => $jury_id]
+            );
+        }
+
         if ($request->hasfile('we_pitch_poster')) {
 
             $destination = "we/images/" . $old_image->we_pitch_poster;
             if (File::exists($destination)) {
                 File::delete($destination);
             }
-
 
             $image = $request->file('we_pitch_poster');
             $extension = $image->extension();
