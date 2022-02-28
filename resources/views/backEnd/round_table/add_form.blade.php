@@ -66,7 +66,8 @@
                 <div class="col-3">
                   <div class="form-group mg-b-0">
                     <label class="form-label">Start Date: <span class="tx-danger">*</span></label>
-                    <input type="date" class="form-control" name="round_table_start_date" id="round_table_start_date" required>
+                    <input type="date" class="form-control" name="round_table_start_date" id="round_table_start_date"
+                      required>
                   </div>
                 </div>
 
@@ -74,7 +75,8 @@
                 <div class="col-3">
                   <div class="form-group mg-b-0">
                     <label class="form-label">End Date: <span class="tx-danger">*</span></label>
-                    <input type="date" class="form-control" name="round_table_end_date" id="round_table_end_date" required>
+                    <input type="date" class="form-control" name="round_table_end_date" id="round_table_end_date"
+                      required>
                   </div>
                 </div>
 
@@ -82,7 +84,7 @@
                 <div class="col-3">
                   <div class="form-group mg-b-0">
                     <label class="form-label">Start Time: <span class="tx-danger">*</span></label>
-                    <input type="time" class="form-control" name="round_table_from" id="round_table_from" required> 
+                    <input type="time" class="form-control" name="round_table_from" id="round_table_from" required>
                   </div>
                 </div>
 
@@ -160,7 +162,13 @@
                 <div class="col-4">
                   <div class="form-group mg-b-0">
                     <label class="form-label">Jury: <span class="tx-danger">*</span></label>
-                    <input type="text" class="form-control" name="jury" id="jury" value="none" required>
+                    <select multiple="multiple" class="form-control select2" name="juries[]">
+                      @if ($juries)
+                        @foreach ($juries as $jury)
+                          <option value="{{$jury->id}}">{{$jury->name}}</option>
+                        @endforeach
+                      @endif
+                    </select>
                   </div>
                 </div>
 
@@ -187,7 +195,8 @@
                 <div class="col-12">
                   <div class="form-group mg-b-0">
                     <label class="form-label"> Event Description: <span class="tx-danger">*</span></label>
-                    <textarea class="form-control summernote" name="round_table_desc" id="round_table_desc" rows="3" placeholder="" required></textarea>
+                    <textarea class="form-control summernote" name="round_table_desc" id="round_table_desc" rows="3"
+                      placeholder="" required></textarea>
                   </div>
                 </div>
               </div>
