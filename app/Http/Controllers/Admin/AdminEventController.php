@@ -226,12 +226,14 @@ class AdminEventController extends Controller
         $sector = Sector::latest()->get();
         $states = DB::table('state_and_city')->select('state_id', 'state_name')->distinct()->orderby('state_id')->get();
         $communities = DB::table('accepted_communities')->select('id', 'name')->get();
-        return view('backEnd.round_table.add_form', compact('sector', 'states', 'communities'));
+        $juries = DB::table('juries')->select('name', 'id')->where(['status' => 1])->get();
+        return view('backEnd.round_table.add_form', compact('sector', 'states', 'communities', 'juries'));
     }
 
     // * Create Round Table Event
     public function create_round_table(Request $request)
     {
+
         $round_table_title = $request->round_table_title;
         if ($request->hasfile('round_table_poster')) {
             $image = $request->file('round_table_poster');
@@ -253,11 +255,11 @@ class AdminEventController extends Controller
         $city = $request->city;
         $sector = $request->sector;
         $type = "round_table";
-        $jury = $request->jury;
+        $jury = "none";
         $faces = $request->faces;
         $event_link = $request->event_link;
 
-        $res = DB::table('community_round_table')->insert([
+        $round_table_inserted_id = DB::table('community_round_table')->insertGetId([
             "round_table_title" => $round_table_title,
             "round_table_poster" => $round_table_poster,
             "round_table_mode" => $round_table_mode,
@@ -278,6 +280,18 @@ class AdminEventController extends Controller
             "faces" => $faces,
             "event_link" => $event_link,
         ]);
+
+        $juries = $request->juries;
+
+        if ($round_table_inserted_id) {
+            foreach ($juries as $jury_id) {
+                $res = DB::table('event_and_jury')->insert([
+                    "event_id" => $round_table_inserted_id,
+                    "jury_id" => $jury_id,
+                    "status" => 1
+                ]);
+            }
+        }
 
         if ($res) {
             $image->move('we/images/', $round_table_poster);
@@ -324,8 +338,16 @@ class AdminEventController extends Controller
 
         $event = DB::table('community_round_table')->where(['id' => $id])->first();
         $cities =  DB::table('state_and_city')->select('city_id', 'city_name')->where(['state_id' => $event->state])->get();
-
-        return view('backEnd.round_table.edit_form', compact('sector', 'states', 'communities', 'event', 'cities'));
+        $event_juries = DB::table('event_and_jury')
+        ->leftjoin('juries', 'juries.id', '=', 'event_and_jury.jury_id')
+        ->select('juries.name','juries.id')
+        ->where(['event_and_jury.event_id' => $id])
+        ->get();
+    
+        foreach($event_juries as $jj){
+            $juries = DB::table('juries')->select('name', 'id')->where(['status' => 1])->where('id' ,"!=", $jj->id)->get();
+        }
+        return view('backEnd.round_table.edit_form', compact('sector', 'states', 'communities', 'event', 'cities','juries','event_juries'));
     }
 
     // * Update Round Table Event
@@ -347,11 +369,19 @@ class AdminEventController extends Controller
         $state = $request->state;
         $city = $request->city;
         $sector = $request->sector;
-        $jury = $request->jury;
         $faces = $request->faces;
         $event_link = $request->event_link;
 
         $old_image = DB::table('community_round_table')->where(['id' => $id])->select('round_table_poster')->first();
+
+        $juries = $request->juries;
+
+            foreach ($juries as $jury_id) {
+                $res = DB::table('event_and_jury')->updateOrInsert(
+                    ['event_id' => $id, 'jury_id' => $jury_id],
+                    ['jury_id' => $jury_id]
+                );
+            }
 
         if ($request->hasfile('round_table_poster')) {
 
@@ -381,7 +411,6 @@ class AdminEventController extends Controller
                 "state" => $state,
                 "city" => $city,
                 "sector" => $sector,
-                "jury" => $jury,
                 "faces" => $faces,
                 "event_link" => $event_link,
             ]);
@@ -402,7 +431,6 @@ class AdminEventController extends Controller
                 "state" => $state,
                 "city" => $city,
                 "sector" => $sector,
-                "jury" => $jury,
                 "faces" => $faces,
                 "event_link" => $event_link,
             ]);
