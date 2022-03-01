@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2022 at 11:08 AM
+-- Generation Time: Feb 28, 2022 at 11:07 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -24,32 +24,32 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `community_and_jury`
+-- Table structure for table `round_event_and_jury`
 --
 
-CREATE TABLE `community_and_jury` (
+CREATE TABLE `round_event_and_jury` (
   `id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
   `jury_id` int(11) DEFAULT NULL,
-  `community_id` int(11) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 0
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `community_and_jury`
+-- Dumping data for table `round_event_and_jury`
 --
 
-INSERT INTO `community_and_jury` (`id`, `jury_id`, `community_id`, `status`) VALUES
-(1, 6, 99, 1),
-(2, 7, 99, 1);
+INSERT INTO `round_event_and_jury` (`id`, `event_id`, `jury_id`, `status`) VALUES
+(1, 6, 7, 1),
+(2, 6, 6, 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `community_and_jury`
+-- Indexes for table `round_event_and_jury`
 --
-ALTER TABLE `community_and_jury`
+ALTER TABLE `round_event_and_jury`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -57,9 +57,9 @@ ALTER TABLE `community_and_jury`
 --
 
 --
--- AUTO_INCREMENT for table `community_and_jury`
+-- AUTO_INCREMENT for table `round_event_and_jury`
 --
-ALTER TABLE `community_and_jury`
+ALTER TABLE `round_event_and_jury`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
