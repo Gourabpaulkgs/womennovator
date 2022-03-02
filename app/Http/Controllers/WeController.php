@@ -245,6 +245,7 @@ class WeController extends Controller
 
         return view('we.event', $data);
     }
+    
     public function event_page($event_id, $type)
 
     {

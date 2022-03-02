@@ -29,7 +29,8 @@ class PartnerController extends Controller
                 ->where(['partners.status' => 0])
                 ->distinct()
                 ->orderBy('partners.id', 'desc')
-                ->paginate(10);
+                ->paginate(10)
+                ->withPath('/admin/partner?pending=true');
 
             return view('backEnd.partner.pending', compact('partnerDatas'));
         }
@@ -48,18 +49,44 @@ class PartnerController extends Controller
     // * Search Partner
     public function search(Request $request)
     {
+   
         $q = $request->q;
-        if ($q != "") {
-            $partnerDatas = Partner::where('poc_name', 'LIKE', '%' . $q . '%')->orWhere('poc_email', 'LIKE', '%' . $q . '%')
-                ->with('sector', 'city')->paginate(10)->setPath('');
-            $pagination = $partnerDatas->appends(array(
-                'q' =>  $request->q
-            ));
-            // dd($pagination);
-            if (count($partnerDatas) > 0)
-                return view('backEnd.partner.index', compact('partnerDatas'));
+       
+        if ($request->pending) {
+            if ($q != '') {
+                if(strlen($q) < 3){
+                    return view('backEnd.partner.pending')->with('message', 'Type at least 3 characters!');
+                }
+                $partnerDatas = DB::table('partners')
+                    ->where('poc_name', 'LIKE', '%' . $q . '%')
+                    ->orWhere('poc_email', 'LIKE', '%' . $q . '%')
+                    ->where(['status' => 0])
+                    ->paginate(10)
+                    ->withPath('/admin/partner?pending=true');
+    
+                if (count($partnerDatas) > 0) {
+                    return view('backEnd.partner.pending', compact('partnerDatas'));
+                }
+                return view('backEnd.partner.pending')->with('message', 'No Details found. Try to search again !');
+            }
+        } else {
+            if ($q != '') {
+                if(strlen($q) < 3){
+                    return view('backEnd.partner.index')->with('message', 'Type at least 3 characters!');
+                }
+                $partnerDatas = DB::table('partners')
+                    ->where('poc_name', 'LIKE', '%' . $q . '%')
+                    ->orWhere('poc_email', 'LIKE', '%' . $q . '%')
+                    ->where(['status' => 1])
+                    ->paginate(10)
+                    ->withPath('/admin/partner');
+
+                if (count($partnerDatas) > 0) {
+                    return view('backEnd.partner.index', compact('partnerDatas'));
+                }
+                return view('backEnd.partner.index')->with('message', 'No Details found. Try to search again !');
+            }
         }
-        return view('backEnd.partner.index')->with('message', 'No Details found. Try to search again !');
     }
 
     // * Show Add Partner Form

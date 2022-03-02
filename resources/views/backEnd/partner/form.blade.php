@@ -28,12 +28,6 @@
     <div class="form-group mg-b-0">
       <label for="state" class="form-label">State: <span class="tx-danger">*</span></label>
       <select class="form-control" id="state" name="state" required>
-        {{-- <option> --- Select a state --- </option> --}}
-        {{-- @if ($states)
-          @foreach ($states as $state)
-            <option value="{{ $state->state_id }}">{{ $state->state_name }}</option>
-          @endforeach
-        @endif --}}
         <option value=""> ---Please Select One--- </option>
         @if ($states)
           @foreach ($states as $state)
@@ -58,7 +52,6 @@
       <label for="city" class="form-label">City: <span class="tx-danger">*</span></label>
       <select class="form-control" id="city" name="city" required>
         <option> --- Select a state first --- </option>
-
 
         @if (isset($cities))
           @foreach ($cities as $city)

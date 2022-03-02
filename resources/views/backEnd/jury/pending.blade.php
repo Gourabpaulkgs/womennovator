@@ -28,10 +28,10 @@
             </div>
           </div>
           <div class="card-body">
-            <form action="{{ url('/admin/jury/search') }}" method="Post" role="search">
+            <form action="{{ url('/admin/jury/search?pending=true') }}" method="Post" role="search">
               @csrf
               <div class="input-group">
-                <input type="text" class="form-control" name="q" placeholder="Search Jury"> <span
+                <input type="text" class="form-control" name="q" placeholder="Search Jury" required> <span
                   class="input-group-btn">
                   <button type="submit" class="btn btn-primary">
                     <i class="fe fe-search"></i>
@@ -51,6 +51,7 @@
                       <th class="wd-15p border-bottom-0"> Email</th>
                       <th class="wd-20p border-bottom-0">Mobile Number</th>
                       <th class="wd-20p border-bottom-0">sector</th>
+                      <th class="wd-20p border-bottom-0">State</th>
                       <th class="wd-20p border-bottom-0">City</th>
                       <th class="wd-15p border-bottom-0">Edit</th>
                       <th class="wd-10p border-bottom-0">Approve</th>
@@ -62,8 +63,9 @@
                         <td>{{ $juryData->name }}</td>
                         <td>{{ $juryData->email }}</td>
                         <td>{{ $juryData->mobile_number }}</td>
-                        <td>{{ $juryData->sector->sectorname ?? '' }}</td>
-                        <td>{{ $juryData->city->name ?? '' }}</td>
+                        <td>{{ $juryData->sectorname ?? '' }}</td>
+                        <td>{{ $juryData->state_name ?? '' }}</td>
+                        <td>{{ $juryData->city_name ?? '' }}</td>
                         <td><a href="{{ url('/admin/jury/'. $juryData->id.'/edit?pending=true') }}"
                             class="btn ripple btn-primary text-white btn-icon"><i class="fe fe-edit"></i></a></td>
                         <td>

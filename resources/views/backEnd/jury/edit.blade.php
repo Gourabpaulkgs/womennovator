@@ -69,3 +69,26 @@
     readURL(this);
   });
 </script>
+
+
+<script>
+  $(document).ready(function() {
+    $("#state").change(function(e) {
+      e.preventDefault();
+      console.log("yes");
+      let state_id = $('#state').val();
+      let _token = $('input[name=_token]').val();
+      $.ajax({
+        type: "post",
+        url: "{{ url('/admin/get_cities') }}",
+        data: {
+          _token,
+          state_id
+        },
+        success: function(result) {
+          $('#city').html(result);
+        }
+      });
+    });
+  });
+</script>

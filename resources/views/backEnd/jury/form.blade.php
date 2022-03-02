@@ -2,7 +2,7 @@
   <div class="col-4">
     <div class="form-group mg-b-0">
       <label class="form-label"> Name: <span class="tx-danger">*</span></label>
-      <input class="form-control" name="name" placeholder="Enter Name" value="{{ $jury->name ?? '' }}" type="text">
+      <input class="form-control" name="name" placeholder="Enter Name" value="{{ $jury->name ?? '' }}" type="text" required>
     </div>
   </div>
 
@@ -10,63 +10,115 @@
     <div class="form-group mg-b-0">
       <label class="form-label">Email: <span class="tx-danger">*</span></label>
       <input class="form-control" name="email" value="{{ $jury->email ?? '' }}" placeholder="Enter Email"
-        type="text">
+        type="text" required>
     </div>
   </div>
   <div class="col-4">
     <div class="form-group mg-b-0">
       <label class="form-label">Mobile Number: <span class="tx-danger">*</span></label>
       <input class="form-control" name="mobile_number" value="{{ $jury->mobile_number ?? '' }}"
-        placeholder="Enter Mobile Number" type="text">
+        placeholder="Enter Mobile Number" type="text" required>
     </div>
   </div>
 </div><br>
+
 <div class="row row-sm">
   <div class="col-4">
     <div class="form-group mg-b-0">
-      <label class="form-label"> State: <span class="tx-danger">*</span></label>
-      <select class="form-control " name="state_id" id="category">
-
-        <option value="">Please Select One</option>
-        @foreach ($state as $stateData)
-          <option value="{{ $stateData->id }}" @if (!empty($jury->state_id) && $jury->state_id == $stateData->id) selected @endif>
-            {{ $stateData->statename }}</option>
-        @endforeach
-      </select>
+      <label class="form-label"> Designation : <span class="tx-danger">*</span></label>
+      <input class="form-control" name="designation" value="{{ $jury->designation ?? '' }}"
+        placeholder="Enter Designation" type="text" required>
     </div>
   </div>
+
   <div class="col-4">
     <div class="form-group mg-b-0">
-      <label class="form-label"> City: <span class="tx-danger">*</span></label>
-      <select class="form-control " name="city_id" id="subcategory_id">
-        @if (!empty($jury->city_id))
-          <option value="{{ $jury->city_id }}">
-            {{ App\Models\City::where('id', $jury->city_id)->first()->name ?? '' }}
-          </option>
-
+      <label class="form-label">Photo:@if (isset($logo_required))
+          <span class="tx-danger">*</span>
         @endif
+      </label>
+      <input class="form-control" name="photo" id="profile-img" value="{{ $jury->photo ?? '' }}"
+        placeholder="Enter Email" type="file">
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="form-group">
+      <img alt="Responsive image" class="img-thumbnail wd-100p wd-sm-100" id="profile-img-tag"
+        @if (Request::is('admin/jury/*/edit')) src="{{ asset('we/jury/' . $jury->photo) ?? '' }}" @endif>
+    </div>
+  </div>
+</div><br>
+
+
+<div class="row row-sm">
+
+  <div class="col-4">
+    <div class="form-group mg-b-0">
+      <label for="state" class="form-label">State: <span class="tx-danger">*</span></label>
+      <select class="form-control" id="state" name="state" required>
+        <option value=""> ---Please Select One--- </option>
+        @if ($states)
+          @foreach ($states as $state)
+            @if (isset($jury->state_id))
+              @if ($jury->state_id == $state->state_id)
+                <option value="{{ $state->state_id }}" selected>{{ $state->state_name }}</option>
+              @else
+                <option value="{{ $state->state_id }}">{{ $state->state_name }}</option>
+              @endif
+            @else
+              <option value="{{ $state->state_id }}">{{ $state->state_name }}</option>
+            @endif
+          @endforeach
+        @endif
+
       </select>
     </div>
   </div>
+
+
+
+  <div class="col-4">
+    <div class="form-group mg-b-0">
+      <label for="city" class="form-label">City: <span class="tx-danger">*</span></label>
+      <select class="form-control" id="city" name="city" required>
+        <option> --- Select a state first --- </option>
+
+        @if (isset($cities))
+          @foreach ($cities as $city)
+            @if (isset($jury->city_id))
+              @if ($jury->city_id == $city->city_id)
+                <option value="{{ $city->city_id }}" selected>{{ $city->city_name }} </option>
+              @else
+                <option value="{{ $city->city_id }}">{{ $city->city_name }} </option>
+              @endif
+            @else
+              <option value="{{ $city->city_id }}">{{ $city->city_name }} </option>
+            @endif
+          @endforeach
+        @endif
+
+      </select>
+    </div>
+  </div>
+
   <div class="col-4">
     <div class="form-group mg-b-0">
       <label class="form-label"> Sector: <span class="tx-danger">*</span></label>
-      <select class="form-control" name="sector_id"
-        @if (Request::is('admin/jury/*/edit')) > <option disabled
-            style="display:block">Please Select One</option>
-
-            @foreach ($sector as $sectorData)
-            <option value="{{ $sectorData->id }}"@if (!empty($jury->sector_id) && $jury->sector_id == $sectorData->id) selected @endif>
-        {{ $sectorData->sectorname }}</option>
-        @endforeach
-      @else
-        <option></option>
-        <option value="">Please Select One</option>
-        @foreach ($sector as $sectorData)
-          <option value="{{ $sectorData->id }}">
-            {{ $sectorData->sectorname }}</option>
-
-        @endforeach
+      <select class="form-control" name="sector_id" required>
+        @if (Request::is('admin/jury/*/edit')) > 
+          <option disabled style="display:block"> --- Please Select One --- </option>
+          @foreach ($sector as $sectorData)
+            <option value="{{ $sectorData->id }}" @if (!empty($jury->sector_id) && $jury->sector_id == $sectorData->id) selected @endif>
+              {{ $sectorData->sectorname }}</option>
+          @endforeach
+        @else
+          <option></option>
+          <option value="">Please Select One</option>
+          @foreach ($sector as $sectorData)
+            <option value="{{ $sectorData->id }}">
+              {{ $sectorData->sectorname }}</option>
+          @endforeach
         @endif
       </select>
     </div>
@@ -80,46 +132,21 @@
     <div class="form-group mg-b-0">
       <label class="form-label">Company Name : <span class="tx-danger">*</span></label>
       <input class="form-control" name="company" value="{{ $jury->company ?? '' }}"
-        placeholder="Enter Company name" type="text">
+        placeholder="Enter Company name" type="text" required>
     </div>
   </div>
+
   <div class="col-6">
     <div class="form-group mg-b-0">
       <label class="form-label"> Industry Name: <span class="tx-danger">*</span></label>
       <input class="form-control" name="industry" value="{{ $jury->industry ?? '' }}"
-        placeholder="Enter Industry name" type="text">
+        placeholder="Enter Industry name" type="text" required>
     </div>
   </div>
-
 </div><br>
 <div class="row row-sm">
-  <div class="col-3">
-    <div class="form-group mg-b-0">
-      <label class="form-label"> Designation : <span class="tx-danger">*</span></label>
-      <input class="form-control" name="designation" value="{{ $jury->designation ?? '' }}"
-        placeholder="Enter Designation" type="text">
-    </div>
-  </div>
-  <div class="col-3">
-    <div class="form-group mg-b-0">
-      <label class="form-label"> Password : <span class="tx-danger">*</span></label>
-      <input class="form-control" name="password" value="" placeholder="Enter Password" type="password">
-    </div>
-  </div>
 
-  <div class="col-3">
-    <div class="form-group mg-b-0">
-      <label class="form-label">Photo: <span class="tx-danger">*</span></label>
-      <input class="form-control" name="photo" id="profile-img" value="{{ $jury->photo ?? '' }}"
-        placeholder="Enter Email" type="file">
-    </div>
-  </div>
-  <div class="col-3">
-    <div class="form-group">
-      <img alt="Responsive image" class="img-thumbnail wd-100p wd-sm-100" id="profile-img-tag"
-        @if (Request::is('admin/jury/*/edit')) src="{{ $jury->photo ?? '' }}" @endif>
-    </div>
-  </div>
+
 
 </div><br>
 <div class="row row-sm">
@@ -127,26 +154,26 @@
     <div class="form-group mg-b-0">
       <label class="form-label">fb Link: <span class="tx-danger">*</span></label>
       <input class="form-control" name="fblink" value="{{ $jury->fblink ?? '' }}" placeholder="Enter Fb Link"
-        type="text">
+        type="text" required>
     </div>
   </div>
   <div class="col-3">
     <div class="form-group mg-b-0">
       <label class="form-label">Linkedin Link: <span class="tx-danger">*</span></label>
       <input class="form-control" name="linkedin" value="{{ $jury->linkedin ?? '' }}"
-        placeholder="Enter Linkedin Link" type="text">
+        placeholder="Enter Linkedin Link" type="text" required>
     </div>
   </div>
   <div class="col-3">
     <div class="form-group mg-b-0">
-      <label class="form-label">Instagram Link: <span class="tx-danger">*</span></label>
+      <label class="form-label">Instagram Link: </label>
       <input class="form-control" name="instagram" value="{{ $jury->instagram ?? '' }}"
         placeholder="Enter Instagram Link" type="text">
     </div>
   </div>
   <div class="col-3">
     <div class="form-group mg-b-0">
-      <label class="form-label">Twitter Link: <span class="tx-danger">*</span></label>
+      <label class="form-label">Twitter Link: </label>
       <input class="form-control" name="twitter" value="{{ $jury->twitter ?? '' }}"
         placeholder="Enter Twitter Link" type="text">
     </div>
@@ -157,7 +184,7 @@
   <div class="col-12">
     <div class="form-group mg-b-0">
       <label class="form-label"> Description: <span class="tx-danger">*</span></label>
-      <textarea class="form-control" name="description" rows="3" placeholder="">{!! $jury->description ?? '' !!}</textarea>
+      <textarea class="form-control" name="description" rows="3" placeholder="" required>{!! $jury->description ?? '' !!}</textarea>
 
     </div>
   </div>

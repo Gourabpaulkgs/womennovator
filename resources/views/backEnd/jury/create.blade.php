@@ -66,26 +66,27 @@
     });
 
 </script>
+
 <script>
-    $(function(){
-       $('#category').on('change',function(){
-           var category_id =$(this).val();
-
+    $(document).ready(function() {
+      $("#state").change(function(e) {
+        e.preventDefault();
+        console.log("yes");
+        let state_id = $('#state').val();
+        let _token = $('input[name=_token]').val();
         $.ajax({
-            type: "GET",
-            url: "{{ url('admin/jury/create') }}",
-            data: "category_id="+category_id,
-            success : function(res){
-            
-                $('#subcategory_id').html(res);
-
-                
-            },
-            error : function(){
-
-            },
+          type: "post",
+          url: "{{ url('/admin/get_cities') }}",
+          data: {
+            _token,
+            state_id
+          },
+          success: function(result) {
+            $('#city').html(result);
+          }
         });
-       });
-    }); 
-    </script>
+      });
+    });
+  </script>
+
 @endsection

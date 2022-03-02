@@ -62,7 +62,7 @@
                       <td>
                         @if ($event->status == 1)
                           <span class="badge badge-success-gradient">Approved</span>
-                        @else
+                        @elseif($event->status == 0)
                           <span class="badge badge-danger-gradient">Unapproved</span>
                         @endif
                       </td>

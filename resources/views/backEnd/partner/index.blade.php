@@ -31,7 +31,7 @@
             <form action="{{ url('/admin/partner/search') }}" method="Post" role="search">
               @csrf
               <div class="input-group">
-                <input type="text" class="form-control" name="q" placeholder="Search partner"> <span
+                <input type="text" class="form-control" name="q" placeholder="Search partner" required> <span
                   class="input-group-btn">
                   <button type="submit" class="btn btn-primary">
                     <i class="fe fe-search"></i>
