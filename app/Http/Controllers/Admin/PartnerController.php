@@ -291,6 +291,10 @@ class PartnerController extends Controller
                 "password" => Hash::make($password),
             ]);
 
+            DB::table('community_and_partner')->where(['partner_id' => $id])->update([
+                "status" => 1
+            ]);
+
             $partner_detail = ['partner_name' => $partner_name, 'partner_email' => $partner_email, 'partner_password' => $password, 'temp_id' => $temp_id];    // This will send to view
 
             $provider_detail = ['partner_name' => $partner_name, 'provider_name' => $provider_name, 'temp_id' => $temp_id];    // This will send to view

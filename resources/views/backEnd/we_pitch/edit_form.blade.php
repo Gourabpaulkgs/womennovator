@@ -203,8 +203,18 @@
                 <div class="col-4">
                   <div class="form-group mg-b-0">
                     <label class="form-label">Jury: <span class="tx-danger">*</span></label>
-                    <input type="text" class="form-control" name="jury" id="jury" value="{{ $event->jury ?? '' }}"
-                      required>
+                    <select multiple="multiple" class="form-control select2" name="juries[]" required>
+                      @if ($event_juries)
+                        @foreach ($event_juries as $event_jury)
+                          <option value="{{ $event_jury->id }}" selected>{{ $event_jury->name }}</option>
+                        @endforeach
+                      @endif
+                      @if ($juries)
+                        @foreach ($juries as $jury)
+                          <option value="{{ $jury->id }}">{{ $jury->name }}</option>
+                        @endforeach
+                      @endif
+                    </select>
                   </div>
                 </div>
 

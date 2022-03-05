@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2022 at 11:29 AM
+-- Generation Time: Feb 28, 2022 at 11:07 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -56,7 +56,8 @@ CREATE TABLE `partners` (
 
 INSERT INTO `partners` (`id`, `poc_name`, `poc_email`, `business_name`, `mobile`, `provider_id`, `contribution`, `logo`, `partnership_agreement`, `interact_as_partner_others`, `program_updates`, `social_handles`, `nominate`, `created_at`, `updated_at`, `state_id`, `city_id`, `status`, `is_fillup`, `temp_id`) VALUES
 (3, 'Ram Techs', 'ramtech@gmail.com', 'Technology', '9564785426', 3740, 'Contribution', '621b3fec539b64.02222803.png', 'partnership', NULL, 'programs', 'social', NULL, '2022-02-27 09:04:55', NULL, 36, 348, 1, 1, NULL),
-(5, 'Jaya Clinic', 'jaya@gmail.com', 'Technology', '9564785426', NULL, 'Contribution', '621b423dcdb1c5.82790234.jpg', 'partnership', NULL, 'programs', 'social', NULL, '2022-02-27 09:19:57', NULL, 36, 216, 1, 1, NULL);
+(5, 'Jaya Clinic', 'jaya@gmail.com', 'Technology', '9564785426', NULL, 'Contribution', '621b423dcdb1c5.82790234.jpg', 'partnership', NULL, 'programs', 'social', NULL, '2022-02-27 09:19:57', NULL, 36, 216, 1, 1, NULL),
+(8, 'Sikhandar Singh', 'sikhandar@gmail.com', 'SikhandarTech', '7594875468', 3740, 'Contribution', '621c6da38857e5.76455638.jpg', 'partnership', NULL, NULL, 'social', NULL, '2022-02-28 06:36:19', NULL, 36, 348, 1, 1, NULL);
 
 --
 -- Indexes for dumped tables
@@ -76,7 +77,7 @@ ALTER TABLE `partners`
 -- AUTO_INCREMENT for table `partners`
 --
 ALTER TABLE `partners`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

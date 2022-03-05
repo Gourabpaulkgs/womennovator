@@ -1030,13 +1030,22 @@ class WeController extends Controller
             $poc_email = trim($request->poc_email);
             $business_name = trim($request->business_name);
 
-            $res = DB::table('partners')->insert([
+            $partner_insert_id = DB::table('partners')->insertGetId([
                 "poc_name" => $poc_name,
                 "poc_email" => $poc_email,
                 "business_name" => $business_name,
                 "provider_id" => $comm_creator->user_id,
                 "status" => 0
             ]);
+
+            if ($partner_insert_id) {
+                $res = DB::table('community_and_partner')->insert([
+                    "partner_id" => $partner_insert_id,
+                    "community_id" => $com_id,
+                    "status" => 0
+                ]);
+            }
+
             if ($res) {
                 return response()->json([
                     'status' => 'success',

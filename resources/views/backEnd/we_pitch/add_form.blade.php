@@ -160,7 +160,13 @@
                 <div class="col-4">
                   <div class="form-group mg-b-0">
                     <label class="form-label">Jury: <span class="tx-danger">*</span></label>
-                    <input type="text" class="form-control" name="jury" id="jury" value="none" required>
+                    <select multiple="multiple" class="form-control select2" name="juries[]" required>
+                      @if ($juries)
+                        @foreach ($juries as $jury)
+                          <option value="{{$jury->id}}">{{$jury->name}}</option>
+                        @endforeach
+                      @endif
+                    </select>
                   </div>
                 </div>
 
