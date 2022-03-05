@@ -353,6 +353,7 @@ Route::get('/emailotp/resend/{id?}',  [MobileloginController::class, 'emailotpRe
 Route::get('/influencer/login', [InfluencersloginController::class, 'index']);
 Route::post('/influencer/loginstore', [InfluencersloginController::class, 'login'])->name('influencer.login');
 Route::get('we/confirm_account/', [RegisterController::class, 'verifymail'])->name('account.verify');
+
 Route::get('we/confirm_account/{email}', [RegisterController::class, 'verifyaccount']);
 
 Auth::routes();

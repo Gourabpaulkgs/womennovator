@@ -46,43 +46,44 @@
 
           <div class="row">
             {{-- Upcoming Normal Events --}}
-           {{-- @if(empty($upcoming_event_normal and $upcoming_event_round and $upcoming_event_we_pitch))
+            {{-- @if (empty($upcoming_event_normal and $upcoming_event_round and $upcoming_event_we_pitch))
               
               <div class="row">
                 <p style="text-align: center;">No Upcoming events are there.</p>
               </div>
               @else --}}
-              @foreach ($upcoming_event_normal as $up_event_normal)
-                <div class="col-sm-4 md-width to_animate" data-animation="fadeInUp">
-                  <div class="post upcoming-event">
-                    <!--  <a href="{{ url('event/' . $up_event_normal->id) }}">-->
-                    <div class="img-post">
-                      <img src="{{ asset('we/images/' . $up_event_normal->normal_event_poster) }}">
-                    </div>
-                    <div class="post-title">
-                      <div class="row">
-                        <div class="col-sm-7">
-                          <h3>{{ $up_event_normal->normal_event_title }}</h3>
-                          <h4>{{ Carbon\Carbon::parse($up_event_normal->normal_event_start_date)->format('jS F, Y') }}
-                          </h4>
-                          <ul class="communi-list">
-                            <li><a href=""><i class="fa fa-clock-o" aria-hidden="true"></i>
-                                {{ Carbon\Carbon::parse($up_event_normal->normal_event_from)->format('h:i A') }}</a>
-                            </li>
-                            <li><a class="com-addres" href=""><i class="fa fa-map-marker" aria-hidden="true"></i>
-                                {{ $up_event_normal->city_name ?? '---' }},
-                                {{ $up_event_normal->state_name ?? '---' }}</a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="col-sm-5">
-                          <div class="post-title-rt-sec">
-                            <a href="{{url('we/event-page/'. $up_event_normal->id. '/'. $up_event_normal->type)}}" class="rsvp">RSVP</a>
-                          </div>
+            @foreach ($upcoming_event_normal as $up_event_normal)
+              <div class="col-sm-4 md-width to_animate" data-animation="fadeInUp">
+                <div class="post upcoming-event">
+                  <!--  <a href="{{ url('event/' . $up_event_normal->id) }}">-->
+                  <div class="img-post">
+                    <img src="{{ asset('we/images/' . $up_event_normal->normal_event_poster) }}">
+                  </div>
+                  <div class="post-title">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <h3>{{ $up_event_normal->normal_event_title }}</h3>
+                        <h4>{{ Carbon\Carbon::parse($up_event_normal->normal_event_start_date)->format('jS F, Y') }}
+                        </h4>
+                        <ul class="communi-list">
+                          <li><a href=""><i class="fa fa-clock-o" aria-hidden="true"></i>
+                              {{ Carbon\Carbon::parse($up_event_normal->normal_event_from)->format('h:i A') }}</a>
+                          </li>
+                          <li><a class="com-addres" href=""><i class="fa fa-map-marker" aria-hidden="true"></i>
+                              {{ $up_event_normal->city_name ?? '---' }},
+                              {{ $up_event_normal->state_name ?? '---' }}</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-sm-5">
+                        <div class="post-title-rt-sec">
+                          <a href="{{ url('we/event-page/' . $up_event_normal->id . '/' . $up_event_normal->type) }}"
+                            class="rsvp">RSVP</a>
                         </div>
                       </div>
                     </div>
-                    {{-- <div class="community-ban-cintent">
+                  </div>
+                  {{-- <div class="community-ban-cintent">
                       <div class="female-user">
                         <img src="{{ url('we/images/femail-img.png') }}">
                       </div>
@@ -91,14 +92,14 @@
 
                       </div>
                     </div> --}}
-                    <div class="attending">
-                      <p>0 Attending</p>
-                    </div>
-                    <!--  </a>-->
+                  <div class="attending">
+                    <p>{{ $up_event_normal->attendees }} Attending</p>
                   </div>
+                  <!--  </a>-->
                 </div>
-              @endforeach
-           {{--@endif--}}
+              </div>
+            @endforeach
+            {{-- @endif --}}
 
             {{-- Upcoming Round Table Events --}}
             @isset($upcoming_event_round)
@@ -126,7 +127,8 @@
                         </div>
                         <div class="col-sm-5">
                           <div class="post-title-rt-sec">
-                            <a href="{{url('we/event-page/'. $up_event_round->id. '/'. $up_event_round->type)}}" class="rsvp">RSVP</a>
+                            <a href="{{ url('we/event-page/' . $up_event_round->id . '/' . $up_event_round->type) }}"
+                              class="rsvp">RSVP</a>
                           </div>
 
                         </div>
@@ -142,7 +144,7 @@
                       </div>
                     </div> --}}
                     <div class="attending">
-                      <p>0 Attending</p>
+                      <p>{{$up_event_round->attendees}} Attending</p>
                     </div>
                     <!--  </a>-->
                   </div>
@@ -176,7 +178,8 @@
                         </div>
                         <div class="col-sm-5">
                           <div class="post-title-rt-sec">
-                            <a href="{{url('we/event-page/'. $up_event_we_pitch->id. '/'. $up_event_we_pitch->type)}}" class="rsvp">RSVP</a>
+                            <a href="{{ url('we/event-page/' . $up_event_we_pitch->id . '/' . $up_event_we_pitch->type) }}"
+                              class="rsvp">RSVP</a>
                           </div>
 
                         </div>
@@ -192,7 +195,7 @@
                       </div>
                     </div> --}}
                     <div class="attending">
-                      <p>0 Attending</p>
+                      <p>{{$up_event_we_pitch->attendees}} Attending</p>
                     </div>
                     <!--  </a>-->
                   </div>
@@ -265,7 +268,7 @@
                       </div>
                     </div> --}}
                     <div class="attending">
-                      {{-- <p>12 Attending</p> --}}
+                      <p>{{$event_normal->attendees}} Attended</p>
                     </div>
                     {{-- </a> --}}
                   </div>
@@ -313,7 +316,7 @@
                       </div>
                     </div> --}}
                     <div class="attending">
-                      {{-- <p>12 Attending</p> --}}
+                      <p>{{$event_round->attendees}} Attended</p>
                     </div>
                     {{-- </a> --}}
                   </div>
@@ -360,7 +363,7 @@
                       </div>
                     </div> --}}
                     <div class="attending">
-                      {{-- <p>12 Attending</p> --}}
+                      <p>{{$event_we_pitch->attendees}} Attended</p>
                     </div>
                     {{-- </a> --}}
                   </div>
@@ -382,21 +385,21 @@
 
 
   <!-- <section class="section get-the-letest">
-                                            <div class="container">
-                                              <div class="row">
-                                                <div class="col-sm-12">
-                                                  <p>Get the latest resources, reminders and alerts from us. Sign up to our newsletter!</p>
-                                                  <div class="mail-submit">
-                                                    <input placeholder="Please add your email id here."><button class="btn-submit">Submit</button>
+                                              <div class="container">
+                                                <div class="row">
+                                                  <div class="col-sm-12">
+                                                    <p>Get the latest resources, reminders and alerts from us. Sign up to our newsletter!</p>
+                                                    <div class="mail-submit">
+                                                      <input placeholder="Please add your email id here."><button class="btn-submit">Submit</button>
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-sm-12">
+
                                                   </div>
                                                 </div>
-                                                <div class="col-sm-12">
 
-                                                </div>
                                               </div>
-
-                                            </div>
-                                          </section>-->
+                                            </section>-->
 
 
 

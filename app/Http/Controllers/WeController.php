@@ -64,15 +64,10 @@ class WeController extends Controller
     public function awards_detail($id)
 
     {
-
         $awards = DB::table('award')
-
             ->where(['id' => $id])
-
             ->select('*')
-
             ->get();
-
         return view('we.awards-details', ['awards' => $awards]);
     }
     public function awards_past()
@@ -272,6 +267,7 @@ class WeController extends Controller
                 ->leftjoin('state_and_city', 'state_and_city.city_id', '=', 'community_normal_event.city')
                 ->select('community_normal_event.*', 'state_and_city.state_name', 'state_and_city.city_name')
                 ->first();
+            $all_juries = [];
         }
 
         if ($type == "round_table") {
@@ -280,6 +276,12 @@ class WeController extends Controller
                 ->leftjoin('state_and_city', 'state_and_city.city_id', '=', 'community_round_table.city')
                 ->select('community_round_table.*', 'state_and_city.state_name', 'state_and_city.city_name')
                 ->first();
+
+            $all_juries = DB::table('round_event_and_jury')
+                ->leftjoin('juries', 'juries.id', '=', 'round_event_and_jury.jury_id')
+                ->where(['round_event_and_jury.event_id' => $event_id])
+                ->select("juries.name", "juries.photo", "juries.id")
+                ->get();
         }
 
         if ($type == "we_pitch") {
@@ -288,17 +290,30 @@ class WeController extends Controller
                 ->leftjoin('state_and_city', 'state_and_city.city_id', '=', 'community_we_pitch.city')
                 ->select('community_we_pitch.*', 'state_and_city.state_name', 'state_and_city.city_name')
                 ->first();
+
+            $all_juries = DB::table('we_pitch_and_jury')
+                ->leftjoin('juries', 'juries.id', '=', 'we_pitch_and_jury.jury_id')
+                ->where(['we_pitch_and_jury.event_id' => $event_id])
+                ->select("juries.name", "juries.photo", "juries.id")
+                ->get();
         }
         $user_id = session()->get('FRONT_USER_LOGIN_ID');
         $check = DB::table('community_event_rsvp')->where(['event_id' => $event_id, 'event_type' => $type, 'user_id' => $user_id])->first();
 
         $is_applied = $check ? true : false;
 
+        $all_attendees = DB::table("community_event_rsvp")
+            ->leftjoin('users', 'users.id', '=', 'community_event_rsvp.user_id')
+            ->where(['community_event_rsvp.event_type' => $type, 'community_event_rsvp.event_id' => $event_id])->select("users.name", "users.id")->get();
+
+
         $data = [
             'normal_event' => $normal_event,
             'round_table' => $round_table,
             'we_pitch' => $we_pitch,
-            'is_applied' => $is_applied
+            'is_applied' => $is_applied,
+            'all_attendees' => $all_attendees,
+            'all_juries' => $all_juries
         ];
 
         return view('we.event-page', $data);
@@ -843,6 +858,7 @@ class WeController extends Controller
             $video = uniqid("", true) . "." . $extension;
         } else {
             $video = "none";
+            $file = null;
         }
 
         $res = DB::table('community_event_rsvp')->insert([
@@ -874,7 +890,7 @@ class WeController extends Controller
         }
 
         if ($res && $check) {
-            if ($file) {
+            if (isset($file)) {
                 $file->move('we/videos/', $video);
             }
             return redirect()->back();

@@ -1,10 +1,10 @@
 <h3>Activate Your Account | WOMENNOVATOR</h3>
-Dear  {{$data['name']}},
+Dear  {{$user_name}},
 <br/><br/>
 <h3>Thank you for registering with Womennovator! </h3>
 
 <div class="text-center">
-      <button type="button" class="btn btn-primary"><a href="{{url('/we/confirm_account/'. $data['email'])}}">Activate Account</a></button>
+      <button type="button" class="btn btn-primary"><a href="{{url('/we/confirm_account/'. $user_email)}}">Activate Account</a></button>
       <p>This link is valid for 24 hour only.</p>
 </div>
 

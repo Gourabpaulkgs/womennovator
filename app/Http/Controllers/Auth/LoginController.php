@@ -48,16 +48,17 @@ class LoginController extends Controller
     //   'email'=>'required|email',
     //   'password'=>'required|min:8'
     // ]);
-    $user = DB::table('users')->where('email', '=', $request->email)->first();
+    $user = DB::table('users')->where(['email' => $request->email])->first();
 
     if ($user) {
       if (Hash::check($request->password, $user->password)) {
-        // error_log('Password');
-        $request->session()->put('FRONT_USER_LOGIN_ID', $user->id);
-        $request->session()->put('FRONT_USER_LOGIN_NAME', $user->name);
-        // return "Welcome to your dashboard $user->name";
-        // return view('we.event', compact('user'));
-        return redirect()->route('we.event');
+        if ($user->is_email_verified == 1) {
+          $request->session()->put('FRONT_USER_LOGIN_ID', $user->id);
+          $request->session()->put('FRONT_USER_LOGIN_NAME', $user->name);
+          return redirect()->route('we.event');
+        } else {
+          return back()->with('fail', 'Please verify your account to Login.');
+        }
       } else {
         return back()->with('fail', 'Password wrong, please try again.');
       }

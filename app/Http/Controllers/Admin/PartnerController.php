@@ -158,7 +158,7 @@ class PartnerController extends Controller
             $user['to'] = $poc_email;
 
 
-            // * Send mail to Jury
+            // * Send mail to Partner
             Mail::send('backEnd\partner\mail_send_partner_credentials', $partner_detail, function ($messages) use ($user) {
                 $messages->to($user['to']);
                 $messages->subject("Login Credentials");

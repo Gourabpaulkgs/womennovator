@@ -1,4 +1,9 @@
- <!-- Header start -->
+@php
+    $user_id = session()->get('FRONT_USER_LOGIN_ID');
+    $creater = DB::table('accepted_communities')->where(['user_id' => $user_id])->first();
+    //dd($creater);
+@endphp
+<!-- Header start -->
  <section
    class="page_topline ds table_section table_section_lg section_padding_top_15 section_padding_bottom_15 columns_margin_0">
    <div class="container-fluid">
@@ -84,7 +89,11 @@
            <!-- header toggler --><span class="toggle_menu"><span></span></span>
          </div>
          <div class="header_right_buttons display_table_cell text-right hidden-xs">
+           @if($creater)
+           <a href="{{url('community/'.$creater->id)}}" class="theme_button color2 margin_0">Go To Community</a>
+           @else
            <a href="{{ route('we.create_community_main') }}" class="theme_button color2 margin_0">Create a Community</a>
+           @endif
          </div>
        </div>
      </div>

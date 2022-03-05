@@ -16,12 +16,14 @@ use App\Mail\Newusermail;
 use App\Mail\HeretoGivesupport;
 use App\Mail\HeretoSeeksupport;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+
 
 //use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 use session;
-use Crypt;
+
 
 class RegisterController extends Controller
 {
@@ -69,81 +71,136 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
 
-    public function insert(Request $data)
+
+    // * Signup First step
+    public function insert(Request $request)
     {
-        // $data->validate([
-        //     'name' => "required",
-        //     'email' => "required",
-        //     'password'=> "unique:users"
-        // ]);
 
-        $this->validate($data, [
-            'email' => 'required|unique:users',
-        ]);
-        // $newdata=new User;
-        // $newdata->name = $data->name;
-        // $newdata->email = $data->email;
-        // $newdata->password = $data->password;
-        // $newdata->save();
-
-        // $data->email->sendEmailVerificationNotification();
-
-        DB::table('users')->insert([
-            'name' => $data->name,
-            'email' => $data->email,
-            'password' => Hash::make($data['password']),
+        $request->validate([
+            "name" => "required",
+            "email" => "required|email|unique:users,email",
+            "password" => "required"
         ]);
 
-        $data1 = array(
-            'name' => $data->name,
-            'email' => Crypt::encrypt($data->email),
+        $name = $request->name;
+        $email = $request->email;
+        $password = $request->password;
 
-        );
-        Mail::to($data->email)->send(new Newusermail($data1));
+        $check =  DB::table('users')->insert([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password),
+            'is_email_verified' => 0
+        ]);
+
         $countries = DB::table('countries')->get();
-        $cities = DB::table('cities')->get();
-        return view('we/signup-step-2', compact('countries', 'cities', 'data'));
-    }
-    public function insertsignup(Request $data2)
-    {
-        DB::table('users')->where(['email' => $data2->email])->update([
-            'phone' => $data2->mobile,
-            'gender' => $data2->gender,
-            'country' => $data2->country,
-            'city' => $data2->city
-        ]);
-        $sectors = DB::table('sectors')->get();
-        return view('we/signup-step-3', compact('data2', 'sectors'));
-    }
-    public function signupstep3(Request $data3)
-    {
-        //print_r($data3);die();
+        $data = [
+            "name" => $name,
+            "email" => $email,
+            "countries" => $countries,
+            "email_verify_warning" => true
+        ];
 
-        DB::table('users')->where(['email' => $data3->email])->update([
-            'companyname' => $data3->companyname,
-            'designation' => $data3->designation,
-            'experience' => $data3->experience,
-            'hereto' => $data3->hereto,
-            'highestqualification' => $data3->highestqualification,
-            'industrytype' => $data3->industrytype,
-            'facebook' => $data3->facebook,
+        if ($check) {
+            $user_detail = ['user_name' => $name, 'user_email' => $email];    // This will send to view
+            $user['to'] = $email;
+
+            // * Send mail to User for confirmation
+            Mail::send('emails.emailconfirmation', $user_detail, function ($messages) use ($user) {
+                $messages->to($user['to']);
+                $messages->subject("Activate Account");
+            });
+
+            return view('we.signup-step-2', $data);
+        } else {
+            return redirect()->back()->with("fail", "Registration Failed");
+        }
+    }
+
+
+    // * Signup Second step
+    public function insertsignup(Request $request)
+    {
+
+        $request->validate([
+            "mobile" => "required|digits:10",
+            "gender" => "required",
+            "country" => "required",
+            "city" => "required",
+        ]);
+
+        $name = $request->name;
+        $email = $request->email;
+        $mobile = $request->mobile;
+        $gender = $request->gender;
+        $country = $request->country;
+        $city = $request->city;
+
+        $check = DB::table('users')->where(['email' => $email])->update([
+            'phone' => $mobile,
+            'gender' => $gender,
+            'country' => $country,
+            'city' => $city
+        ]);
+
+        $sectors = DB::table('sectors')->get();
+        $data = [
+            "name" => $name,
+            "email" => $email,
+            "sectors" => $sectors,
+            "email_verify_warning" => true
+        ];
+
+        if ($check) {
+            return view('we.signup-step-3', $data);
+        } else {
+            return redirect()->back()->with("fail", "Registration Failed");
+        }
+    }
+
+    // * Signup Third step
+    public function signupstep3(Request $request)
+    {
+
+        $name = $request->name;
+        $email = $request->email;
+        $companyname = $request->companyname;
+        $designation = $request->designation;
+        $experience = $request->experience;
+        $industrytype = $request->industrytype;
+        $facebook = $request->facebook;
+        $highestqualification = $request->highestqualification;
+        $hereto = $request->hereto;
+
+       $check = DB::table('users')->where(['email' => $email])->update([
+            'companyname' => $companyname,
+            'designation' => $designation,
+            'experience' => $experience,
+            'hereto' => $hereto,
+            'highestqualification' => $highestqualification,
+            'industrytype' => $industrytype,
+            'facebook' => $facebook,
         ]);
 
         $data1 = array(
-            'name' => $data3->email,
-            'email' => $data3->email,
-
+            'name' => $name,
+            'email' => $email,
         );
 
-        if ($data3->hereto == 'givesupport') {
-            Mail::to($data3->email)->send(new HeretoGivesupport($data1));
+        if ($request->hereto == 'givesupport') {
+            Mail::to($request->email)->send(new HeretoGivesupport($data1));
         } else {
-            Mail::to($data3->email)->send(new HeretoSeeksupport($data1));
+            Mail::to($request->email)->send(new HeretoSeeksupport($data1));
         }
 
-
-        return redirect('we/login');
+        if($check){
+            return redirect('we/login');
+        }
+        else{
+            return redirect()->back()->with("fail", "Registration Failed");
+        }
     }
+
     public function verifymail(Request $request)
     {
         $data = $request->except(['_token']);
@@ -168,17 +225,13 @@ class RegisterController extends Controller
         //      dd('done');
         // }    
     }
-    public function verifyaccount($email = "")
+
+    public function verifyaccount(Request $request, $email)
     {
-        $email = Crypt::decrypt($email);
-        // // dd($email);
-        // $id=DB::table('users')->where('email',$email)->select('id')->pluck('id')->first();
-        // // DB::table('users')->where(['id'=> $id-> id])->update([
-        // //     'email_verified_at'=>Carbon::now()
-        // // ]); 
         DB::table('users')->where(['email' => $email])->update([
-            'email_verified_at' => Carbon::now()
+            'email_verified_at' => Carbon::now(),
+            'is_email_verified' => 1
         ]);
-        return redirect('we/login')->with('success', ' Email Verification Successfull ');
+        return redirect('we/login')->with('success', 'Email Verification Successfull');
     }
 }

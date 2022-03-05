@@ -79,7 +79,6 @@
                 } elseif (isset($we_pitch->attendees)) {
                     $attendees = $we_pitch->attendees;
                 }
-                
               @endphp
               <h2> {{ Carbon\Carbon::parse($start_date)->format('M d') }}</h2>
               <h3>{{ Carbon\Carbon::parse($start_date)->format('Y') }}</h3>
@@ -109,14 +108,18 @@
               <ul>
                 <li class="community-nav-links active" id="comm-home">Home</li>
                 <li class="community-nav-links" id="comm-attend">Attendees</li>
-                <li class="community-nav-links" id="comm-jury">Jury</li>
+                @if (isset($round_table->id) || isset($we_pitch->id))
+                  <li class="community-nav-links" id="comm-jury">Jury</li>
+                @else
+                  <li></li>
+                @endif
               </ul>
             </ul>
           </nav>
         </div>
         <div class="col-sm-3 to_animate" data-animation="fadeInRight">
           @if ($is_applied)
-            <a href="javascript:void(0);" class="join-btn">Applied</a>
+            <a href="#" class="join-btn">Applied</a>
           @else
             @if (session()->has('FRONT_USER_LOGIN_ID'))
               <a href="#" class="join-btn" id="join-btn">Join this event</a>
@@ -128,7 +131,7 @@
 
             <div class="team-user">
               <div class="team-user-title">
-                <h5>   people already going</h5>
+                <h5> {{ $attendees }} people already going</h5>
               </div>
             </div>
 
@@ -142,23 +145,20 @@
   </div>
 
 
+  {{-- HOME --}}
   <section class="section comm-event-section show">
     <div class="container">
       <div class="row">
         <div class="col-sm-9">
-
-
           <div class="row">
             <div class="col-sm-9">
               <div class="post about-event to_animate" data-animation="fadeInUp">
                 <h3>About the Event</h3>
                 {!! $desc !!}
-
               </div>
             </div>
             <div class="col-sm-3"></div>
           </div>
-
         </div>
 
         {{-- LEFT CARDS - COMMUNITY AND COMMUNITY LEADER --}}
@@ -174,14 +174,12 @@
                     <a class="team-img" href="#"><img src="./images/user.jpg"></a>
                     <div class="team-user-title">
                       <h5>Female Entrepreneurs of Bombay</h5>
-
                     </div>
                   </div>
                   <p>A women community for up and coming entrepreneurs from Bombay -- from handicraft to operations
                     intensive businesses.</p>
                 </div>
               </li>
-
             </ul>
             <div class="entire-team">
               <ul>
@@ -194,7 +192,6 @@
           <div class="rt-heading">
             <h2>Community Leader</h2>
           </div>
-
           <div class="team to_animate" data-animation="fadeInUp">
             <ul>
               <li>
@@ -204,20 +201,15 @@
                     <div class="team-user-title">
                       <h5>Robin Smith<span class="check-icon"><img src="images/check-icon.png"></span></h5>
                       <span class="sub-dis">Fintech Guru</span>
-
                     </div>
                   </div>
                   <p>15 years of experience in ed-tech and community service.</p>
                 </div>
               </li>
-
             </ul>
-
           </div>
-
         </div> --}}
       </div>
-
     </div>
   </section>
 
@@ -241,9 +233,9 @@
                   <li class="search-candidates display-flex " style="position: relative">
                     <input type="text" placeholder="Search">
                     <i style="position: absolute;
-                    right: 7%;
-                    top: 18%;
-                    color: #757575;" class="fas fa-search"></i>
+                              right: 7%;
+                              top: 18%;
+                              color: #757575;" class="fas fa-search"></i>
                   </li>
 
                 </ul>
@@ -271,34 +263,35 @@
 
           <div class="row">
 
-            <div class=" " style="width: auto !important;">
+            <div class="" style="width: auto !important;">
               <div class="members-list-section">
                 <ul>
-                  <li class="display-flex member-li">
-                    <p class="member-name">
-                      Atul Ahlawat (You)
-                    </p>
-                    <p class="px-3 " style="color: #757575;">Social Worker</p>
-                    <p class=" px-3">Applied 25 mins ago</p>
-                    <i class="fa-solid fa-up-right-from-square"></i>
-                    <p class="px-3 member-option">
+                  @if ($all_attendees)
+                    @foreach ($all_attendees as $item)
+                      <li class="display-flex member-li">
+                        <p class="member-name">
+                          {{ $item->name }}
+                        </p>
+                        {{-- <p class="px-3" style="color: #757575;">Social Worker</p> --}}
+                        {{-- <p class=" px-3">Applied 25 mins ago</p> --}}
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                        <p class="px-3 member-option">
+                          <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </p>
+                      </li>
+                    @endforeach
+                  @endif
 
-                      <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </p>
 
-                  </li>
-
-                  <li class="display-flex member-li">
+                  {{-- <li class="display-flex member-li">
                     <p class="member-name">
                       Atul Ahlawat
                     </p>
                     <p class="px-3 " style="color: #757575;">Businessman</p>
                     <p class="px-3">Applied 1 hour ago</p>
-
                     <p class="px-3 member-option"><i class="fa-solid fa-ellipsis-vertical"></i>
                     </p>
-
-                  </li>
+                  </li> --}}
                 </ul>
               </div>
 
@@ -375,55 +368,22 @@
       <h3>Jury Members</h3>
       <br>
       <div class="jury-member-cards">
-        <div class="jury-card">
-          <div class="jury-image">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Tripti_Shinghal_Somani.jpg" alt="">
-          </div>
 
-          <h3>Tripti Somani</h3>
-          <p>Founder</p>
-          <p>Womennovator</p>
-        </div>
+        @if ($all_juries)
+          @foreach ($all_juries as $jury)
+            <div class="jury-card">
+              <div class="jury-image">
+                <img src="{{asset('we/jury/'.$jury->photo)}}" alt="jury image">
+              </div>
 
-        <div class="jury-card">
-          <div class="jury-image">
-            <img src="TriptiSomani.jpg" alt="">
-          </div>
+              <h3>{{$jury->name}}</h3>
+              {{-- <p>Founder</p> --}}
+              <p>Womennovator</p>
+            </div>
+          @endforeach
+        @endif
 
-          <h3>Tripti Somani</h3>
-          <p>Founder</p>
-          <p>Womennovator</p>
-        </div>
 
-        <div class="jury-card">
-          <div class="jury-image">
-            <img src="TriptiSomani.jpg" alt="">
-          </div>
-
-          <h3>Tripti Somani</h3>
-          <p>Founder</p>
-          <p>Womennovator</p>
-        </div>
-
-        <div class="jury-card">
-          <div class="jury-image">
-            <img src="TriptiSomani.jpg" alt="">
-          </div>
-
-          <h3>Tripti Somani</h3>
-          <p>Founder</p>
-          <p>Womennovator</p>
-        </div>
-
-        <div class="jury-card">
-          <div class="jury-image">
-            <img src="TriptiSomani.jpg" alt="">
-          </div>
-
-          <h3>Tripti Somani</h3>
-          <p>Founder</p>
-          <p>Womennovator</p>
-        </div>
       </div>
     </div>
   </section>
@@ -600,8 +560,6 @@
             <p>Venue: {{ $mode }}</p>
           </strong>
           <br>
-
-
           <p>Organised by <strong>{{ $community_name }}</strong></p>
           <br>
         </div>
@@ -740,23 +698,20 @@
     <br>
   </section>
 
-
-  <!-- <section class="section get-the-letest">
-                                <div class="container">
-                                  <div class="row">
-                                    <div class="col-sm-12">
-                                      <p>Get the latest resources, reminders and alerts from us. Sign up to our newsletter!</p>
-                                      <div class="mail-submit">
-                                        <input placeholder="Please add your email id here."><button class="btn-submit">Submit</button>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-12">
-
-                                    </div>
-                                  </div>
-
-                                </div>
-                              </section>-->
+  {{-- <section class="section get-the-letest">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Get the latest resources, reminders and alerts from us. Sign up to our newsletter!</p>
+          <div class="mail-submit">
+            <input placeholder="Please add your email id here."><button class="btn-submit">Submit</button>
+          </div>
+        </div>
+        <div class="col-sm-12">
+        </div>
+      </div>
+    </div>
+  </section> --}}
 
   <script>
     const commCloseBtn = document.getElementById("comm-form-close");
@@ -767,16 +722,18 @@
       e.preventDefault();
       commModal.classList.remove("show");
       commModal.classList.add("hide");
-
     });
     commOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
       commModal.classList.remove("hide");
       commModal.classList.add("show");
-    })
+    });
+  </script>
 
-    var communityLinks = document.getElementsByClassName("community-nav-links");
-    var commEvents = document.getElementsByClassName("comm-event-section");
+
+  <script>
+    const communityLinks = document.getElementsByClassName("community-nav-links");
+    const commEvents = document.getElementsByClassName("comm-event-section");
     for (let i = 0; i <= communityLinks.length; i++) {
       communityLinks[i].addEventListener('click', () => {
         // console.log(communityLinks[i].id);

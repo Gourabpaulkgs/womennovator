@@ -124,22 +124,44 @@
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="com-logo">
-                                            <img src="images/stripe.png">
+                                            <img src="images/lakshmi.jpg" style="height: 209px;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="com-logo">
-                                            <img src="images/checkr.png">
+                                            <img src="images/chandra.jpg" style="height: 209px;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="com-logo">
-                                            <img src="images/pagerduty.png">
+                                            <img src="images/savina.jpg" style="height: 209px;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="com-logo">
-                                            <img src="images/airbnb.png">
+                                            <img src="images/sarifa.jpg" style="height: 209px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="com-logo">
+                                            <img src="images/divya.jpg" style="height: 209px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="com-logo">
+                                            <img src="images/nidhi.jpg" style="height: 209px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="com-logo">
+                                            <img src="images/meera.jpg" style="height: 209px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="com-logo">
+                                            <img src="images/pinky.jpg" style="height: 209px;">
                                         </div>
                                     </div>
                                 </div>
