@@ -56,6 +56,13 @@
             </select>
         </div>
     </div>
+    <div class="col-6">
+        <div class="form-group mg-b-0">
+            <label class="form-label">Short Description: <span class="tx-danger">*</span></label>
+            <input class="form-control" name="short_description" placeholder="Enter short description"
+                value="{{ $blog->short_description ?? ''}}" type="text">
+        </div>
+    </div>
 </div>
    <br>
    <span>Author</span>

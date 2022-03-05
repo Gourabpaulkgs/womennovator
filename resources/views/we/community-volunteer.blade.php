@@ -27,15 +27,15 @@
               <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="{{ url('community/events/' . $community->id) }}">Events</a></li>
-				<li><a href="{{ url('community/members/' . $community->id) }}">Members</a></li>
+                <li><a href="{{ url('community/members/' . $community->id) }}">Members</a></li>
                 <li><a href="{{ route('community.about', ['com_id' => $community->id]) }}">About</a></li>
               </ul>
             </nav>
           </div>
-          <div class="col-sm-3">
+          {{-- <div class="col-sm-3">
             <a href="{{ route('we.community_setting', ['com_id' => $community->id]) }}" class="join-btn"><i
-                class="fa fa-cog" aria-hidden="true"></i> Community Settings</a>
-          </div>
+                class="fa fa-cog" aria-hidden="true"></i> Community Settings VOLUNTEERRRR</a>
+          </div> --}}
         </div>
       </div>
     </div>
@@ -93,7 +93,7 @@
                       <a style="display: block"><img src="{{ url('we/images/post-icon.png') }}" />
                         Post</a>
                     </div>
-                    <div class="post-tab tablinks" id="poll">
+                    {{-- <div class="post-tab tablinks" id="poll">
                       <a style="display: block"><img src="{{ url('we/images/poll-icon.png') }}" />
                         Poll</a>
                     </div>
@@ -101,7 +101,7 @@
                       <a class="" style="display: block"><img
                           src="{{ url('we/images/resource-icon.png') }}" />
                         Resource</a>
-                    </div>
+                    </div> --}}
                   </div>
                   <div class="post-content" id="post-content">
 
@@ -121,10 +121,10 @@
                       <input type="hidden" name="creator_id" id="creator_id"
                         value="{{ session('FRONT_USER_LOGIN_ID') }}">
                       <input type="hidden" name="type" value="post"></input>
-                      <input type="hidden" name="post_id" value="{{$post->id ?? ''}}"></input>
+                      <input type="hidden" name="post_id" value="{{ $post->id ?? '' }}"></input>
 
-                      <input type="text" name="post_title" placeholder="Post Title" value="{{ $post->post_title ?? '' }}"
-                        required></input>
+                      <input type="text" name="post_title" placeholder="Post Title"
+                        value="{{ $post->post_title ?? '' }}" required></input>
 
                       @if (Request::get('action') == 'edit')
                         <input type="file" name="post_image" placeholder="Post Image"></input>
@@ -146,6 +146,9 @@
                       </form>
                       <h2 style="font-size: 1.2rem;">All Posts in this community</h2>
                       <div class="container" style="border: 1px solid rgb(196, 196, 196); margin-top: 15px;">
+                        @php
+                          $user_id = session('FRONT_USER_LOGIN_ID');
+                        @endphp
                         @if (isset($all_post[0]))
                           @foreach ($all_post as $item)
                             <div class="row" style="padding: 1rem;">
@@ -155,24 +158,29 @@
                                 <soan>{{ $item->post_title }}</soan>
                                 <p style="font-size: 14px;">Likes: {{ $item->like_count }}</p>
                               </div>
-                              <div class="col-md-2">
-                                <a href="{{ url('community/' . $community->id . '?action=edit&pid=' . $item->id) }}"
-                                  class="btn btn-success btn-sm">Edit</a>
-                                <a href="{{ url('community/' . $community->id . '?action=delete&pid=' . $item->id) }}" class="btn btn-danger btn-sm">Delete</a>
-                              </div>
+
+                              @if ($item->creator_id == $user_id)
+                                <div class="col-md-2">
+                                  <a href="{{ url('community/' . $community->id . '?action=edit&pid=' . $item->id) }}"
+                                    class="btn btn-success btn-sm">Edit</a>
+                                  <a href="{{ url('community/' . $community->id . '?action=delete&pid=' . $item->id) }}"
+                                    class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                              @endif
+
                             </div>
                           @endforeach
-                          @else
+                        @else
                           <div class="row">
                             <p style="text-align: center;">No Posts are there</p>
                           </div>
                         @endif
-                      </div>  
+                      </div>
                     </div>
 
-                
+
                     {{-- POLL --}}
-                    <div id="post-poll" class="tabcontent hidden">
+                    {{-- <div id="post-poll" class="tabcontent hidden">
                       <form action="{{ route('we.community_post_poll') }}" method="post" id="poll_form">
                         @csrf
                         <input type="hidden" name="community_id" id="community_id" value="{{ $community->id }}">
@@ -200,10 +208,10 @@
                         </div>
                       </form>
 
-                    </div>
+                    </div> --}}
 
                     {{-- RESOURCE --}}
-                    <div id="post-resource" class="tabcontent hidden">
+                    {{-- <div id="post-resource" class="tabcontent hidden">
                       <form action="{{ route('we.community_post_poll') }}" method="post" id="resource_form"
                         enctype="multipart/form-data">
                         @csrf
@@ -225,7 +233,7 @@
                           <button type="submit" class="post-btn">Post</button>
                         </div>
                       </form>
-                    </div>
+                    </div> --}}
                   </div>
                 </div>
 

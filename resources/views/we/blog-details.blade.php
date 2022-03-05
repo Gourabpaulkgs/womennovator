@@ -11,7 +11,7 @@
                                     
                                     <div class="col-sm-12">
                                         <div class="blog-ldetails">
-                                            <img src="{{$blog->image}}">
+                                            <img src="{{ asset('backEnd/image/blog_image/' . $blog->image) }}" alt="">
                                            
                                                 <h3>{{$blog->name}}</h3>
                                                 <p>{!!$blog->description!!}</p>

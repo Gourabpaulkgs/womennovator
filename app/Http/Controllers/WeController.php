@@ -32,6 +32,20 @@ class WeController extends Controller
         }
         return view('we.login');
     }
+    public function member_profile(Request $request, $id)
+    {
+        $user = DB::table('users')->where(['id' => $id])->first();
+        $com_ids = DB::table('community_followers')->where(['user_id' => $id])->select('community_id')->get();
+        $login_id = $request->session()->get('FRONT_USER_LOGIN_ID');
+        $communities = [];
+        foreach ($com_ids as $com_id) {
+            //dd($com_id->community_id);
+            $communities[] = DB::table('accepted_communities')->where(['id' => $com_id->community_id])->first();
+            //dd($communities);
+        }
+
+        return view('we.profile-page', compact('user', 'communities', 'login_id'));
+    }
     public function awards()
     {
         $upcoming_awards = DB::table('award')
@@ -245,7 +259,6 @@ class WeController extends Controller
 
         return view('we.event', $data);
     }
-    
     public function event_page($event_id, $type)
 
     {
@@ -1134,6 +1147,24 @@ class WeController extends Controller
             return view("backEnd.partner.after_form_fillup", ['success' => "Form Fillup Successfull"]);
         } else {
             return view("backEnd.partner.after_form_fillup", ['fail' => "Form Fillup Failed"]);
+        }
+    }
+
+    // * Add Volunteer
+    public function add_volunteer(Request $request)
+    {
+        $com_id = $request->com_id;
+        $member_id = $request->member_id;
+
+        $res = DB::table('community_and_volunteer')->insert([
+            "community_id" => $com_id,
+            "member_id" => $member_id
+        ]);
+
+        if ($res) {
+            return redirect("/community/members/" . $com_id)->with("success", "Volunteer Added Successfully");
+        } else {
+            return redirect("/community/members/" . $com_id)->with("fail", "Volunteer Cannot be Added");
         }
     }
 }

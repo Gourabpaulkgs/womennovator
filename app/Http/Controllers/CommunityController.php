@@ -80,7 +80,7 @@ class CommunityController extends Controller
         }
 
         $creater = DB::table('accepted_communities')->where(['user_id' => $user_id, 'id' => $com_id])->first();
-
+        $volunteer = DB::table('community_and_volunteer')->where(['community_id' => $com_id, 'member_id' => $user_id])->first();
 
         $all_post = DB::table('community_post')->where(['community_id' => $com_id, 'status' => 1])->get();
         $all_poll = DB::table('community_poll')->where(['community_id' => $com_id, 'status' => 1])->get();
@@ -113,6 +113,10 @@ class CommunityController extends Controller
         if ($creater) {
             return view("we.empty-community", ['community' => $community, 'all_post' => $all_post, 'post' => $post]);
         }
+        
+        if($volunteer){
+            return view("we.community-volunteer", ['community' => $community, 'all_post' => $all_post, 'post' => $post]);
+        }
 
 
         return view('we.community-page', ['community' => $community, 'followed' => $followed, 'all_post' => $all_post, 'all_poll' => $all_poll]);
@@ -133,9 +137,9 @@ class CommunityController extends Controller
         }
 
         $creater = DB::table('accepted_communities')->where(['user_id' => $user_id, 'id' => $com_id])->first();
+        $volunteer = DB::table('community_and_volunteer')->where(['community_id' => $com_id, 'member_id' => $user_id])->first();
 
-
-        if ($creater) {
+        if ($creater || $volunteer) {
             return view("we.event_manage", ['community' => $community]);
         }
 
@@ -145,7 +149,26 @@ class CommunityController extends Controller
 
         return view('we.community-event-page', ['community' => $community, 'followed' => $followed, 'normal_event' => $normal_event, 'round_table' => $round_table, 'we_pitch' => $we_pitch]);
     }
-
+public function community_member(Request $request, $com_id)
+    {
+        $community = DB::table('accepted_communities')->where('id', $com_id)->first();
+        $user_id =  $request->session()->get('FRONT_USER_LOGIN_ID');
+        $check = DB::table('community_followers')->where(['user_id' => $user_id, 'community_id' => $com_id])->first();
+        $members_id = DB::table('community_followers')->where(['community_id' => $com_id])->select('user_id')->get();
+        $creater = DB::table('accepted_communities')->where(['user_id' => $user_id, 'id' => $com_id])->first();
+        $members=[];
+        //dd($members_id);
+        foreach($members_id as $member_id)
+        {
+        $members[] = DB::table('users')->where(['id' => $member_id->user_id])->first();
+        }
+        if ($check) {
+            $followed = true;
+        } else {
+            $followed = false;
+        }
+        return view('we.community-members' , compact('community','followed','members','creater'));
+    }
     public function community_setting($com_id)
     {
         $community = DB::table('accepted_communities')->where('id', $com_id)->first();
@@ -211,5 +234,13 @@ class CommunityController extends Controller
 		 $all_poll = DB::table('community_poll')->where(['community_id' => $com_id, 'status' => 1])->get();
         return view('we.about_community', ['community' => $community, 'followed' => $followed, 'all_post' => $all_post, 'all_poll' => $all_poll]);
         
+    }
+	public function remove_from_community(Request $request, $com_id, $user_id)
+    {
+        
+        DB::table('community_followers')->where(['user_id' => $user_id, 'community_id' => $com_id])->delete();
+
+        DB::table('accepted_communities')->where('id', $com_id)->decrement('followers');
+        return redirect()->back();
     }
 }

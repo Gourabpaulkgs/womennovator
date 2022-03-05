@@ -118,14 +118,16 @@ Route::get('/we/pitchdeck',  [WeController::class, 'pitchdeck'])->name('we.pitch
 Route::get('/we/communities',  [WeController::class, 'communities']);
 Route::get('/community/{com_id}', 'App\Http\Controllers\CommunityController@community');
 Route::get('/community/events/{com_id}', [CommunityController::class, 'community_event']);
-Route::get('/we/profile',  [WeController::class, 'user_profile'])->name('we.profile');
+Route::get('/community/members/{com_id}', [CommunityController::class, 'community_member']);
+Route::get('/community/remove-user/{com_id}/{user_id}',  [CommunityController::class, 'remove_from_community'])->name('remove.from_community');
 Route::get('/community/about/{com_id}', [CommunityController::class, 'about'])->name('community.about');
-
+Route::get('/profile/{id}',  [WeController::class, 'member_profile']);
 Route::get('/we/community-page',  [WeController::class, 'community_page']);
 Route::get('/we/community_setting/{com_id}',  [CommunityController::class, 'community_setting'])->name('we.community_setting');
 Route::post('/community_update/{id}',  [CommunityController::class, 'update'])->name('frontendcommunity.update');
 Route::get('/we/contact-us',  [WeController::class, 'contact_us']);
 Route::post('/newsletter',  [WeController::class, 'newsletter_store'])->name('newsletter.store');
+Route::get('/we/incubation/about', [IncubationController::class, 'about']);
 //Route::get('/we/contact_us',  [WeController::class, 'contact_us']);
 //Route::get('/we/create-community-loggedin-stage-2',  [WeController::class, 'create_community_loggedin_stage2']);
 //Route::get('/we/create-community-loggedin-stage-3',  [WeController::class, 'create_community_loggedin_stage3']);
@@ -213,6 +215,8 @@ Route::group(['middleware' => 'front_user_auth'], function () {
   // * Add Partner
   Route::post("/we/add_partner", [WeController::class, "add_partner"])->name("we.add_partner");
 
+  // * Add Volunteer
+  Route::post("/we/add_volunteer",[WeController::class ,"add_volunteer"])->name("we.add_volunteer");
 });
 
 

@@ -259,6 +259,7 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
+          
           <div class="slider">
             @foreach ($blogs as $blog)
               <div class="slick-slideshow__slide">
@@ -269,24 +270,24 @@
                     </div>
                   </center>
                   <a href="{{ url('blog/' . $blog->id) }}">
-                    <h3>{{ $blog->name }}</h3>
+                    <h3>{{\Illuminate\Support\Str::limit($blog->name, 32, '...')}}</h3>
                   </a>
                   <p>by {{ $blog->author_name }}</p>
-                  <p>
-                    <span class="post_info_date search">{!! substr($blog->description, 0, 100) !!}...
-
-                      <a href="{{ url('/blog/' . $blog->id) }}" style="color:#be9656;" class="prev_button">Read
-                        More<i class="fa fa-angle-double-right"></i></a>
-                  </p>
+                   <p>{{\Illuminate\Support\Str::limit($blog->short_description, 100, '....')}} 
+                          <a href="{{ url('/blog/' . $blog->id) }}" style="color:#be9656;" class="prev_button">Read
+                            More<i class="fa fa-angle-double-right"></i></a>
+                    </p>
+                  
                 </div>
               </div>
             @endforeach
           </div>
+         
         </div>
       </div>
     </div>
   </section>
-  <section class="section join-communuty to_animate" data-animation="fadeInUp">
+  {{-- <section class="section join-communuty to_animate" data-animation="fadeInUp">
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
@@ -330,6 +331,84 @@
       </div>
 
     </div>
+  </section> --}}
+  <section class="section join-communuty to_animate" data-animation="fadeInUp">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Our Backers</h2>
+        </div>
+        <div class="col-sm-12">
+          <div class="backers slick-initialized slick-slider " style="padding: 0 2vw; overflow: hidden;">
+            <div class="" style="padding: 0px 60px; ">
+              <div class="animation-track" style="align-items: center;width: 4200px; left: -700px; display: flex; ">
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/guftagu-cafe-final.jpg') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Inq-Innovation.jpg') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Invest-India.png') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/anantaya-decor.png') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Arrow-PC.jpeg') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/bk.png') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/CEPRlogo-4.png') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Cisne.jpeg') }}">
+                </div>
+                <div class="bac-logo slick-slide" style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Consulate-National-Emb(VM)-1.jpg') }}">
+                </div>
+                <div class="bac-logo slick-slide" style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/DCMSME.jpg') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/guftagu-cafe-final.jpg') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Inq-Innovation.jpg') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Invest-India.png') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/anantaya-decor.png') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Arrow-PC.jpeg') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/bk.png') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/CEPRlogo-4.png') }}">
+                </div>
+                <div class="bac-logo slick-slide " style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Cisne.jpeg') }}">
+                </div>
+                <div class="bac-logo slick-slide" style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/Consulate-National-Emb(VM)-1.jpg') }}">
+                </div>
+                <div class="bac-logo slick-slide" style="width: 175px; margin-left:2vw;">
+                  <img src="{{ url('we/images/backers/DCMSME.jpg') }}">
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
   </section>
   <!--  <section class="section get-the-letest to_animate" data-animation="fadeInRight">
                     <div class="container">
@@ -347,6 +426,18 @@
                         
                     </div>
                 </section>-->
+                <script>
+                  setInterval(() => {
+                    const animation_track = document.querySelector(".slick-track")
+                  
+                  animation_track.classList.add("animation-track");
+                    
+                  }, 500);
+            
+                  
+    
+              
+              </script>
 @endsection
 
 <!-- eof #box_wrapper -->

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2022 at 12:55 PM
+-- Generation Time: Mar 05, 2022 at 04:28 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -45,7 +45,8 @@ CREATE TABLE `community_post` (
 --
 
 INSERT INTO `community_post` (`id`, `community_id`, `community_name`, `creator_id`, `post_title`, `post_image`, `post_content`, `post_date`, `status`, `like_count`) VALUES
-(6, 99, 'Mystic', 3740, 'New Post', '62174779d27e27.74990298.png', 'New Post Content', 'Thursday, 24 February, 2022', 1, 0);
+(6, 99, 'Mystic', 3740, 'New Post', '62174779d27e27.74990298.png', 'New Post Content', 'Thursday, 24 February, 2022', 1, 0),
+(8, 99, 'Mystic', 3742, 'Volunteer Post', '6221ee9d7969e6.55873729.png', 'Volunteer Post', 'Friday, 04 March, 2022', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -65,7 +66,7 @@ ALTER TABLE `community_post`
 -- AUTO_INCREMENT for table `community_post`
 --
 ALTER TABLE `community_post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

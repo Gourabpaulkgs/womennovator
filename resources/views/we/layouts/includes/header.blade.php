@@ -29,7 +29,7 @@
                  @if (session()->has('FRONT_USER_LOGIN_ID'))
 				   <li style="margin-right: -1.8vw" ><i style="margin-left: 1vw; color: #ce199a; font-size: 0.7vw;" class="fa-solid fa-user"></i></li>
 
-                                     <li><a href="{{ route('we.profile') }}"
+                                     <li><a href="{{ url('profile/'. session('FRONT_USER_LOGIN_ID')) }}"
 
                                              style="color:#ce199a !important; text-transform:uppercase;">{{ session('FRONT_USER_LOGIN_NAME') }}</a>
 
@@ -92,9 +92,9 @@
  </header>
  
  @if($errors->any())
-<div class="alert alert-success fade in">
+<div class="alert alert-danger fade in">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> {{$errors->first()}}
+  <strong>Warning!</strong> {{$errors->first()}}
 </div>
 @endif
  <!--/ Header end -->

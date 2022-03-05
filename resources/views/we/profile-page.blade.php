@@ -5,26 +5,29 @@
     <div class="container">
       <div class="col-sm-10">
         <div class="banner">
-          <img src="images/profile-banner.png">
+          <img src="{{asset('images/profile-banner.png')}}">
         </div>
         <div class="banner-profile">
           <div class="row">
             <div class="col-sm-8">
               <div class="profile-img-lt">
                 <div class="profile-img">
-                  <img src="images/femail-img.png">
+                  <img src="{{asset('images/profile-banner.png')}}" style="width: auto;
+                  height: 100%;">
                 </div>
                 <div class="profile-img-title">
-                  <h2>{{ $user[0]->name }}</h2>
-                  <p>{{ $user[0]->email }}</p>
+                  <h2>{{ $user->name }}</h2>
+                  <p>{{ $user->email }}</p>
                 </div>
               </div>
             </div>
             <div class="col-sm-4">
+              @if ($login_id  == ($user->id))
               <div class="profile-img-rt">
                 <a href="{{ route('edit.profile') }}" class="edit-profile">Edit Profile</a>
-                <a href="#" class="setting">Settings <i class="fa fa-cog" aria-hidden="true"></i></a>
+                <a href="#" class="setting" style="align-items:center;">Settings <i class="fa fa-cog" aria-hidden="true"></i></a>
               </div>
+              @endif
             </div>
           </div>
 
@@ -34,7 +37,12 @@
             <div class="col-sm-12">
               <div class="aword-head">
                 <h2>Awards</h2>
+                @if ($login_id  == ($user->id))
                 <p>Awards you’ve won so far</p>
+                @else
+                
+                <p> Awards {{ $user->name }} won so far</p>
+                @endif
               </div>
             </div>
             <div class="col-sm-4">
@@ -48,7 +56,7 @@
                     <span>21-Aug-2021</span>
                   </div>
                   <div class="won-on-rt">
-                    <a class="view" href="#"><img src="images/view-icon.png"> View</a>
+                    <a class="view" href="#"><img src="{{asset('images/view-icon.png')}}"> View</a>
                   </div>
 
                 </div>
@@ -69,8 +77,13 @@
 
             <div class="col-sm-12">
               <div class="aword-head">
+                @if ($login_id  == ($user->id))
                 <h2>Communities you’re part of</h2>
                 <p>Communities that you follow.</p>
+                @else
+                <h2>Communities {{ $user->name }} part of</h2>
+                <p>Communities that {{ $user->name }} follow.</p>
+                @endif
               </div>
             </div>
 
@@ -94,12 +107,13 @@
                         {{-- <p>Won On</p> --}}
                         <span>{{ $community->created_at }}</span>
                       </div>
-
+                      @if ($login_id  == ($user->id))
                       <div class="won-on-rt">
                         <a class="view"
                           href="{{ route('we.unfollow_community', ['com_id' => $community->id]) }}"><img
-                            src="images/cross-icon.png"> Leave</a>
+                            src="{{asset('images/cross-icon.png')}}"> Leave</a>
                       </div>
+                      @endif
 
                     </div>
                   </div>

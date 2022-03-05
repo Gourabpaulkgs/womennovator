@@ -22,7 +22,7 @@
               <li><a href="{{ url('community/' . $community->id) }}">Home</a></li>
               <li><a href="{{ url('community/events/' . $community->id) }}">Events</a></li>
               @if (session()->has('FRONT_USER_LOGIN_ID'))
-                <li><a href="#">Members</a></li>
+                 <li><a href="{{ url('community/members/' . $community->id) }}">Members</a></li>
               @endif
               <li><a href="{{ route('community.about', ['com_id' => $community->id]) }}">About</a></li>
             </ul>
@@ -71,6 +71,12 @@
     <div class="container">
 
       {{-- All Normal Events --}}
+      @if($normal_event->count() == 0 and $we_pitch->count() == 0 and $round_table->count() == 0)
+              
+              <div class="row">
+                <p style="text-align: center;">No events are there.</p>
+              </div>
+      @else
       <div class="row">
         <div class="col-sm-9">
           <div class="post-comi-title">
@@ -102,7 +108,7 @@
 
           <div class="row">
             <div class="col-sm-7">
-              @if ($normal_event)
+              
                 @foreach ($normal_event as $event)
                   <a href="#">
                     <div class="post to_animate" data-animation="fadeInUp">
@@ -153,7 +159,7 @@
                     </div>
                   </a>
                 @endforeach
-              @endif
+             
 
               {{-- <div class="post to_animate" data-animation="fadeInUp">
                 <div class="community-ban-cintent">
@@ -248,9 +254,12 @@
           </div>
         </div> --}}
       </div>
+      @endif
+
       {{-- End of All Normal Events --}}
 
       {{-- All Round Table Events --}}
+      @if($we_pitch->count() > 0)
       <div class="row">
         <div class="col-sm-9">
           <div class="post-comi-title">
@@ -342,9 +351,11 @@
 
         </div>
       </div>
+      @endif
       {{-- End ofAll Round Table Events --}}
 
       {{-- All We Pitch Events --}}
+      @if($round_table->count() > 0)
       <div class="row">
         <div class="col-sm-9">
           <div class="post-comi-title">
@@ -435,6 +446,7 @@
           </div>
         </div>
       </div>
+      @endif
       {{-- End ofAll We Pitch Events --}}
 
 

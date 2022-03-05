@@ -46,9 +46,14 @@
 
           <div class="row">
             {{-- Upcoming Normal Events --}}
-            @isset($upcoming_event_normal)
+           {{-- @if(empty($upcoming_event_normal and $upcoming_event_round and $upcoming_event_we_pitch))
+              
+              <div class="row">
+                <p style="text-align: center;">No Upcoming events are there.</p>
+              </div>
+              @else --}}
               @foreach ($upcoming_event_normal as $up_event_normal)
-                <div class="col-sm-4 to_animate" data-animation="fadeInUp">
+                <div class="col-sm-4 md-width to_animate" data-animation="fadeInUp">
                   <div class="post upcoming-event">
                     <!--  <a href="{{ url('event/' . $up_event_normal->id) }}">-->
                     <div class="img-post">
@@ -93,7 +98,7 @@
                   </div>
                 </div>
               @endforeach
-            @endisset
+           {{--@endif--}}
 
             {{-- Upcoming Round Table Events --}}
             @isset($upcoming_event_round)
@@ -223,7 +228,7 @@
             {{-- Past Normal Event --}}
             @isset($past_event_normal)
               @foreach ($past_event_normal as $event_normal)
-                <div class="col-sm-3 to_animate" data-animation="fadeInUp">
+                <div class="col-sm-3 md-width to_animate" data-animation="fadeInUp">
                   <div class="post upcoming-event">
                     {{-- <a href="{{ url('event/' . $event->id) }}" --}}
                     <div class="img-post">

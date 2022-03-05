@@ -49,12 +49,12 @@ class PartnerController extends Controller
     // * Search Partner
     public function search(Request $request)
     {
-   
+
         $q = $request->q;
-       
+
         if ($request->pending) {
             if ($q != '') {
-                if(strlen($q) < 3){
+                if (strlen($q) < 3) {
                     return view('backEnd.partner.pending')->with('message', 'Type at least 3 characters!');
                 }
                 $partnerDatas = DB::table('partners')
@@ -63,7 +63,7 @@ class PartnerController extends Controller
                     ->where(['status' => 0])
                     ->paginate(10)
                     ->withPath('/admin/partner?pending=true');
-    
+
                 if (count($partnerDatas) > 0) {
                     return view('backEnd.partner.pending', compact('partnerDatas'));
                 }
@@ -71,7 +71,7 @@ class PartnerController extends Controller
             }
         } else {
             if ($q != '') {
-                if(strlen($q) < 3){
+                if (strlen($q) < 3) {
                     return view('backEnd.partner.index')->with('message', 'Type at least 3 characters!');
                 }
                 $partnerDatas = DB::table('partners')

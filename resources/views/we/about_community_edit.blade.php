@@ -27,7 +27,7 @@
             <ul>
               <li><a href="{{ url('community/' . $community->id) }}">Home</a></li>
               <li><a href="{{ url('community/events/' . $community->id) }}">Events</a></li>
-              <li><a href="#">Members</a></li>
+               <li><a href="{{ url('community/members/' . $community->id) }}">Members</a></li>
               <li><a href="{{ route('community.about', ['com_id' => $community->id]) }}">About</a></li>
             </ul>
           </nav>

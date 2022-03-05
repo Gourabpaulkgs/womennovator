@@ -4,10 +4,13 @@ namespace App\Http\Controllers\frontEnd;
 //namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Incubation;
-//use App\Models\Careerform;
-use Redirect;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
+
+
 
 class IncubationController extends Controller
 {
@@ -66,5 +69,14 @@ class IncubationController extends Controller
        
       // dd( $stories);
         return view('we.success-stories',compact('stories'));
+    }
+    public function about()
+    
+    {
+        $about=DB::table('incubations')->select('*')->get();
+        //$incubation=Incubation::latest()->get();
+       
+      // dd( $stories);
+        return view('we.incubation-about',compact('about'));
     }
 }

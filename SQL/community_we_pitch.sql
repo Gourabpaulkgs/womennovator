@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2022 at 12:55 PM
+-- Generation Time: Mar 05, 2022 at 04:29 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -59,7 +59,8 @@ CREATE TABLE `community_we_pitch` (
 INSERT INTO `community_we_pitch` (`id`, `we_pitch_title`, `we_pitch_poster`, `we_pitch_mode`, `we_pitch_start_date`, `we_pitch_end_date`, `we_pitch_from`, `we_pitch_to`, `we_pitch_desc`, `community_id`, `community_name`, `creator_id`, `status`, `is_drafted`, `state`, `city`, `sector`, `type`, `jury`, `faces`, `event_link`, `attendees`) VALUES
 (3, 'First we pitch event', '6215c7d1703f96.89902628.jpg', 'offline', '2022-02-27', '2022-02-28', '11:06', '16:08', 'First we pitch event Content', 99, 'Mystic', 3740, 1, 0, 'none', 'none', 'none', 'we_pitch', 'none', 'none', 'none', 0),
 (4, 'Test we-pitch event 1', '62186879266d21.83228658.jpg', 'online', '2022-02-26', '2022-03-04', '12:00', '15:00', 'Test we-pitch event 1 desc', 99, 'Mystic', 3740, 1, 0, '36', '348', NULL, 'we_pitch', 'none', 'none', 'none', 0),
-(5, 'Test we-pitch event 2', '6218691fbc5a66.27495792.jpg', 'online', '2022-02-25', '2022-02-27', '10:00', '12:00', 'Test we-pitch event 2 desc', 99, 'Mystic', 3740, 0, 1, 'none', 'none', 'none', 'we_pitch', 'none', 'none', 'none', 0);
+(5, 'Test we-pitch event 2', '6218691fbc5a66.27495792.jpg', 'online', '2022-02-25', '2022-02-27', '10:00', '12:00', 'Test we-pitch event 2 desc', 99, 'Mystic', 3740, 0, 1, 'none', 'none', 'none', 'we_pitch', 'none', 'none', 'none', 0),
+(6, 'Test we-pitch event 3', '621c9938e63f06.97669367.jpg', 'online', '2022-03-03', '2022-03-05', '07:00', '10:00', '<p>Test we-pitch event 3 Desc<br></p>', 99, 'Mystic', 3740, 1, 0, '36', '352', NULL, 'we_pitch', NULL, 'none', 'none', 0);
 
 --
 -- Indexes for dumped tables
@@ -79,7 +80,7 @@ ALTER TABLE `community_we_pitch`
 -- AUTO_INCREMENT for table `community_we_pitch`
 --
 ALTER TABLE `community_we_pitch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

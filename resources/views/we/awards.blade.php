@@ -50,8 +50,13 @@
     <section class="section aword-body-con">
         <div class="container">
             <div class="row">
-                @isset($past_awards)
-              @foreach ($past_awards as $past_awards)
+                @if($upcoming_awards->count() == 0)
+              
+              <div class="row">
+                <p style="text-align: center;">No Upcoming awards are there.</p>
+              </div>
+              @else
+              @foreach ($upcoming_awards as $past_awards)
                
                 <div class="col-sm-4">
                     <div class="cart">
@@ -70,7 +75,7 @@
                     
                 </div>
                 @endforeach
-                @endisset
+                @endif
                 
 
 

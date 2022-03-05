@@ -24,14 +24,13 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `community_and_partner`
+-- Table structure for table `community_and_volunteer`
 --
 
-CREATE TABLE `community_and_partner` (
+CREATE TABLE `community_and_volunteer` (
   `id` int(11) NOT NULL,
-  `partner_id` int(11) DEFAULT NULL,
   `community_id` int(11) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 0
+  `member_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -39,9 +38,9 @@ CREATE TABLE `community_and_partner` (
 --
 
 --
--- Indexes for table `community_and_partner`
+-- Indexes for table `community_and_volunteer`
 --
-ALTER TABLE `community_and_partner`
+ALTER TABLE `community_and_volunteer`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -49,9 +48,9 @@ ALTER TABLE `community_and_partner`
 --
 
 --
--- AUTO_INCREMENT for table `community_and_partner`
+-- AUTO_INCREMENT for table `community_and_volunteer`
 --
-ALTER TABLE `community_and_partner`
+ALTER TABLE `community_and_volunteer`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 

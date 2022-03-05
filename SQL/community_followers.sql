@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2022 at 04:25 AM
+-- Generation Time: Mar 05, 2022 at 04:26 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -24,24 +24,33 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `community_and_partner`
+-- Table structure for table `community_followers`
 --
 
-CREATE TABLE `community_and_partner` (
+CREATE TABLE `community_followers` (
   `id` int(11) NOT NULL,
-  `partner_id` int(11) DEFAULT NULL,
-  `community_id` int(11) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 0
+  `user_id` int(11) NOT NULL,
+  `community_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `community_followers`
+--
+
+INSERT INTO `community_followers` (`id`, `user_id`, `community_id`) VALUES
+(5, 3741, 4),
+(10, 3722, 7),
+(12, 3742, 99),
+(13, 3743, 99);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `community_and_partner`
+-- Indexes for table `community_followers`
 --
-ALTER TABLE `community_and_partner`
+ALTER TABLE `community_followers`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -49,10 +58,10 @@ ALTER TABLE `community_and_partner`
 --
 
 --
--- AUTO_INCREMENT for table `community_and_partner`
+-- AUTO_INCREMENT for table `community_followers`
 --
-ALTER TABLE `community_and_partner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `community_followers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

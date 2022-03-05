@@ -97,48 +97,6 @@
                 </div>
             </section>
             
-			
-			<section class="section get-the-letest">
-                <div class="container">
-					<div class="row">
-                        <div class="col-sm-12">                            
-                            <p>Get the latest resources, reminders and alerts from us. Sign up to our newsletter!</p>
-                            <div class="mail-submit">
-                                <input placeholder="Please add your email id here."><button class="btn-submit">Submit</button>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                           
-                        </div>
-                    </div>
-                    
-                </div>
-                
-                  <div class="modal fade" id="request-suss" role="dialog">
-    <div class="modal-dialog modal-width">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><img src="images/close-icon.png"></button>
-          
-        </div>
-        <div class="modal-body jury-popup">
-          <div class="text-center">
-                <h3 style="color:#000;">Request successfully sent. </h3>
-            </div>
-            
-            <div class="sussecsfull">
-                <div class="check-box"><img src="images/check-wt.png"></div>
-                
-            </div>
-            <div class="text-center">
-                <a class="back-btn" href="">Go back</a>
-            </div>
-        </div>
-      </div>
-        </div>
-  </div>
-            </section>
  
  
 			@endsection

@@ -42,8 +42,8 @@
   <section class="section">
     <div class="container">
       <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-11">
+       <!-- <div class="col-sm-1"></div>-->
+        <div class="col-sm-12">
           <div class="our-team">
             <h3>WHAT IS WOMENNOVATOR?</h3>
             <p>

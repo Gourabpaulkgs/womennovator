@@ -22,7 +22,7 @@
             <li><a href="{{ url('community/' . $community->id) }}">Home</a></li>
             <li><a href="{{ url('community/events/' . $community->id) }}">Events</a></li>
             @if (session()->has('FRONT_USER_LOGIN_ID'))
-              <li><a href="#">Members</a></li>
+              <li><a href="{{ url('community/members/' . $community->id) }}">Members</a></li>
             @endif
             <li><a href="{{ route('community.about', ['com_id' => $community->id]) }}">About</a></li>
           </ul>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2022 at 12:55 PM
+-- Generation Time: Mar 05, 2022 at 04:29 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -59,7 +59,8 @@ CREATE TABLE `community_round_table` (
 INSERT INTO `community_round_table` (`id`, `round_table_title`, `round_table_poster`, `round_table_mode`, `round_table_start_date`, `round_table_end_date`, `round_table_from`, `round_table_to`, `round_table_desc`, `community_id`, `community_name`, `creator_id`, `status`, `is_drafted`, `state`, `city`, `sector`, `type`, `jury`, `faces`, `event_link`, `attendees`) VALUES
 (3, 'First Round Table', '6215c758ed6dc7.85447214.jpg', 'online', '2022-02-19', '2022-02-20', '08:00', '10:00', 'First Round Table Content', 99, 'Mystic', 3740, 1, 0, '36', '376', NULL, 'round_table', 'none', 'none', 'none', 0),
 (4, 'Test round_table event 1', '621867d44711c6.28890127.jpg', 'online', '2022-02-22', '2022-02-23', '05:05', '08:09', 'Test round_table event 1 desc', 99, 'Mystic', 3740, 1, 0, '36', '216', NULL, 'round_table', 'none', 'none', 'none', 0),
-(5, 'Test round_table event 2', '62186824756195.44266671.jpg', 'online', '2022-02-26', '2022-03-01', '15:00', '16:00', 'Test round_table event 2 desc', 99, 'Mystic', 3740, 0, 1, 'none', 'none', 'none', 'round_table', 'none', 'none', 'none', 0);
+(5, 'Test round_table event 2', '62186824756195.44266671.jpg', 'online', '2022-02-26', '2022-03-01', '15:00', '16:00', 'Test round_table event 2 desc', 99, 'Mystic', 3740, 0, 1, 'none', 'none', 'none', 'round_table', 'none', 'none', 'none', 0),
+(6, 'Test round_table event 3', '621c8f752c7934.00563676.jpg', 'online', '2022-03-01', '2022-03-04', '10:00', '16:00', '<p>Test round_table event 3 Desc<br></p>', 99, 'Mystic', 3740, 1, 0, '36', '348', '73', 'round_table', 'none', 'none', 'none', 0);
 
 --
 -- Indexes for dumped tables
@@ -79,7 +80,7 @@ ALTER TABLE `community_round_table`
 -- AUTO_INCREMENT for table `community_round_table`
 --
 ALTER TABLE `community_round_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
